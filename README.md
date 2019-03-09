@@ -6,7 +6,7 @@ Repositório para a disciplina de PDI - UFPB 2019.1
 * Francisco Junior Ribeiro
 * Dayane Freitas
 * Gabriel Belarmino
-* Rhenan Cirilo Castelo Branco
+* Rhenan Castelo Branco
 
 ## Trabalhos desenvolvidos
 Para a realização destes trabalhos foi permitido utilizar qualquer linguagem de programação, porem existe a restrição de não utilizar nenhuma biblioteca especial para processamento de imagens.
