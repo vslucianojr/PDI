@@ -3,7 +3,6 @@ from tkinter.filedialog import askopenfilename
 from PIL import Image
 import numpy as np
 
-
 def selecionaImg():
     # Tornando global para ser acessada pelas demais funcoes
     global imagemOriginal, larguraOriginal, alturaOriginal, arrayOriginal
@@ -105,6 +104,55 @@ def YIQRGB(imagemYIQ, largura, altura):
     
     return imagemRGB
 
+def selecionaBanda(banda):
+    run = True
+    while run:
+        if banda == 'R':
+            arrayModificada = bandaIndividual(arrayOriginal, larguraOriginal, alturaOriginal, banda)
+            imagemModificada = arrayImagem(arrayModificada)
+            exibe(imagemModificada)
+            run = False
+
+        elif banda == 'G':
+            arrayModificada = bandaIndividual(arrayOriginal, larguraOriginal, alturaOriginal, banda)
+            imagemModificada = arrayImagem(arrayModificada)
+            exibe(imagemModificada)
+            run = False
+            
+        elif banda == 'B':
+            arrayModificada = bandaIndividual(arrayOriginal, larguraOriginal, alturaOriginal, banda)
+            imagemModificada = arrayImagem(arrayModificada)
+            exibe(imagemModificada)
+            run = False
+        else:
+            return
+
+def bandaIndividual(arrayDaImagem, largura, altura, banda):
+	arrayDaImagem = arrayDaImagem.copy()
+	if banda is 'R':
+		for i in range(altura):
+			for j in range(largura):
+				arrayDaImagem[i][j][1] = 0
+				arrayDaImagem[i][j][2] = 0
+		return arrayDaImagem
+
+	elif banda is 'G':
+		for i in range(altura):
+			for j in range(largura):
+				arrayDaImagem[i][j][0] = 0
+				arrayDaImagem[i][j][2] = 0
+		return arrayDaImagem
+
+	elif banda is 'B':
+		for i in range(altura):
+			for j in range(largura):
+				arrayDaImagem[i][j][0] = 0
+				arrayDaImagem[i][j][1] = 0
+		return arrayDaImagem
+
+	else:
+		return arrayDaImagem
+
 def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das funcoes de tratamento de imagem
     loop = True
     global imagemModificada, arrayModificada
@@ -125,6 +173,15 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
 
         elif opcao == 3:                    #Imagem com banda individual colorida
             print('3')
+            bandaType = Tk()
+            btnR =  Button(bandaType, text="Banda R", command= lambda: selecionaBanda('R'))
+            btnG = Button(bandaType, text="Banda G", command= lambda: selecionaBanda('G'))
+            btnB = Button(bandaType, text="Banda B", command= lambda: selecionaBanda('B'))
+            btnR.pack()
+            btnG.pack()
+            btnB.pack()
+            loop = False
+
         elif opcao == 4:                    #Imagem com banda individual monocromática
             print('4')
         elif opcao == 5:                    #Imagem negativa
