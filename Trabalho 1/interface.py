@@ -479,7 +479,7 @@ def filtroMedianaRGB (imagem, largura, altura, m, n):
             #Laço para percorrer a banda R dos Pixels da parte da imagem referente ao tamanho do Kernel 
             for k in range(m):
                 for l in range(n):
-                    bandaR[k][l] = imagem[i - contAltura][j - contLargura][0]  #
+                    bandaR[k][l] = imagem[i - contAltura][j - contLargura][0]
                     contLargura -= 1
                     contAltura -= 1
                     contLargura = limiteLargura
@@ -644,16 +644,16 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
             print('5')
 
             if imagemModificaIsRGB is True:
-            arrayModificada = filtroNegativoRGB(arrayOriginal, larguraOriginal, alturaOriginal)
-            imagemModificada = arrayImagem(arrayModificada)
-            exibe(imagemModificada)
-            loop = False
+                arrayModificada = filtroNegativoRGB(arrayOriginal, larguraOriginal, alturaOriginal)
+                imagemModificada = arrayImagem(arrayModificada)
+                exibe(imagemModificada)
+                loop = False
 
             else:
-            arrayModificada = filtroNegativoYIQ(arrayOriginal, larguraOriginal, alturaOriginal)
-            imagemModificada = arrayImagem(arrayModificada)
-            exibe(imagemModificada)
-            loop = False     
+                arrayModificada = filtroNegativoYIQ(arrayOriginal, larguraOriginal, alturaOriginal)
+                imagemModificada = arrayImagem(arrayModificada)
+                exibe(imagemModificada)
+                loop = False     
 
         elif opcao == 6:                    #Controle de brilho aditivo
             fator = int(input('Informe o fator de Adição! '))
