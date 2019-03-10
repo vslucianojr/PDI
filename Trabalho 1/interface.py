@@ -104,30 +104,42 @@ def YIQRGB(imagemYIQ, largura, altura):
     
     return imagemRGB
 
-def selecionaBanda(banda):
+def selecionaBanda(banda,tipo): #Selecionando a banda que será utilizada e o tipo da exibição
     run = True
     while run:
         if banda == 'R':
-            arrayModificada = bandaIndividual(arrayOriginal, larguraOriginal, alturaOriginal, banda)
+            if tipo is 'colorida':
+                arrayModificada = bandaColorida(arrayOriginal, larguraOriginal, alturaOriginal, banda)
+               
+            elif tipo is 'monocromatica':
+                arrayModificada = bandaMonocromatica(arrayOriginal, larguraOriginal, alturaOriginal, banda)
             imagemModificada = arrayImagem(arrayModificada)
             exibe(imagemModificada)
             run = False
 
         elif banda == 'G':
-            arrayModificada = bandaIndividual(arrayOriginal, larguraOriginal, alturaOriginal, banda)
+            if tipo is 'colorida':
+                arrayModificada = bandaColorida(arrayOriginal, larguraOriginal, alturaOriginal, banda)
+               
+            elif tipo is 'monocromatica':
+                arrayModificada = bandaMonocromatica(arrayOriginal, larguraOriginal, alturaOriginal, banda)
             imagemModificada = arrayImagem(arrayModificada)
             exibe(imagemModificada)
             run = False
             
         elif banda == 'B':
-            arrayModificada = bandaIndividual(arrayOriginal, larguraOriginal, alturaOriginal, banda)
+            if tipo is 'colorida':
+                arrayModificada = bandaColorida(arrayOriginal, larguraOriginal, alturaOriginal, banda)
+               
+            elif tipo is 'monocromatica':
+                arrayModificada = bandaMonocromatica(arrayOriginal, larguraOriginal, alturaOriginal, banda)
             imagemModificada = arrayImagem(arrayModificada)
             exibe(imagemModificada)
             run = False
         else:
             return
 
-def bandaIndividual(arrayDaImagem, largura, altura, banda):
+def bandaColorida(arrayDaImagem, largura, altura, banda): # Para exibição colorida
 	arrayDaImagem = arrayDaImagem.copy()
 	if banda is 'R':
 		for i in range(altura):
@@ -153,6 +165,156 @@ def bandaIndividual(arrayDaImagem, largura, altura, banda):
 	else:
 		return arrayDaImagem
 
+def bandaMonocromatica(imagem, largura, altura, banda):
+	
+	imagemMonocromatica = imagem.copy()
+	
+	if banda is 'R':
+		for i in range(altura):
+			for j in range(largura):
+				#Repete a matriz R em G e B
+				imagemMonocromatica[i][j][1] = imagem[i][j][0]
+				imagemMonocromatica[i][j][2] = imagem[i][j][0]
+				
+		return imagemMonocromatica
+		
+	elif banda is 'G':
+		for i in range(altura):
+			for j in range(largura):
+				#Repete a matriz G em R e B
+				imagemMonocromatica[i][j][0] = imagem[i][j][1]
+				imagemMonocromatica[i][j][2] = imagem[i][j][1]
+				
+		return imagemMonocromatica
+
+	elif banda is 'B':
+		for i in range(altura):
+			for j in range(largura):
+				#Repete a matriz B em R e G
+				imagemMonocromatica[i][j][0] = imagem[i][j][2]
+				imagemMonocromatica[i][j][1] = imagem[i][j][2]
+				
+		return imagemMonocromatica
+    #pega a media dos valores do pixel e atualiza com o valor obtido
+    #esse processo deixa mais suave os niveis de cinza
+    #elif banda is 'M':
+        #for i in range(altura):
+			#for j in range(largura):
+                #media = (imagem[i][j][0]+imagem[i][j][1]+imagem[i][j][2])/3
+				#imagemMonocromatica[i][j][0] = media
+				#imagemMonocromatica[i][j][1] = media
+                #imagemMonocromatica[i][j][2] = media
+        #return imagemMonocromatica
+	
+	else:
+		return imagemMonocromatica
+
+
+
+
+
+	
+    
+#Troca as cores do pixel
+#verde -> magenta,
+#azul -> amarelo, 
+#vermelho -> cíano, 
+#branco -> preto
+def filtroNegativoRGB(imagem, largura, altura):
+	
+	imagemNegativa = imagem.copy()
+	
+	for i in range(altura):
+		for j in range(largura):
+		     # Vai diminuir 255 de cada cor do pixel
+			imagemNegativa[i][j][0] = 255 - imagem[i][j][0]
+			imagemNegativa[i][j][1] = 255 - imagem[i][j][1]
+			imagemNegativa[i][j][2] = 255 - imagem[i][j][2]
+	
+	return imagemNegativa
+
+def filtroNegativoYIQ(imagem, largura, altura):
+	
+	imagemNegativa = imagem.copy()
+	
+	for i in range(altura):
+		for j in range(largura):
+			imagemNegativa[i][j][0] = 255 - imagem[i][j][0]
+	
+	return imagemNegativa
+#Separa a imagem em dois grupos:
+#pixels com valores abaixo do limiar
+# pixels acima do valor do limiar
+#o limiar é a intensidade do cinza
+def filtroLimiarizacaoRGB(imagem, largura, altura, limiar, banda):
+	
+	imagemLimiarizada = imagem.copy()
+	
+	if banda is 'R':
+		for i in range(altura):
+			for j in range(largura):
+				#Verifica sempre se o valor daquela banda no pixel é menor ou igual
+				#o limiar, caso seja maior ele trunca em 255
+				if imagemLimiarizada[i][j][0] <= limiar:
+                    #Deixa os pixels brancos,no caso tom mais claro
+					imagemLimiarizada[i][j][0] = 0
+					imagemLimiarizada[i][j][1] = 0
+					imagemLimiarizada[i][j][2] = 0
+				else:
+					imagemLimiarizada[i][j][0] = 255
+					imagemLimiarizada[i][j][1] = 255
+					imagemLimiarizada[i][j][2] = 255
+				
+		return imagemLimiarizada
+	
+	elif banda is 'G':
+		for i in range(altura):
+			for j in range(largura):
+				if imagemLimiarizada[i][j][1] <= limiar:
+					imagemLimiarizada[i][j][0] = 0
+					imagemLimiarizada[i][j][1] = 0
+					imagemLimiarizada[i][j][2] = 0
+				else:
+					imagemLimiarizada[i][j][0] = 255
+					imagemLimiarizada[i][j][1] = 255
+					imagemLimiarizada[i][j][2] = 255
+
+		return imagemLimiarizada
+	
+	elif banda is 'B':
+		for i in range(altura):
+			for j in range(largura):
+				if imagemLimiarizada[i][j][2] <= limiar:
+					imagemLimiarizada[i][j][0] = 0
+					imagemLimiarizada[i][j][1] = 0
+					imagemLimiarizada[i][j][2] = 0
+				else:
+					imagemLimiarizada[i][j][0] = 255
+					imagemLimiarizada[i][j][1] = 255
+					imagemLimiarizada[i][j][2] = 255
+				
+		return imagemLimiarizada
+	
+	else:
+		return imagemLimiarizada
+		
+
+def filtroLimiarizacaoYIQ(imagem, largura, altura, limiar):
+	
+	imagemLimiarizada = imagem.copy()
+	
+
+	for i in range(altura):
+		for j in range(largura):
+			if imagemLimiarizada[i][j][0] <= limiar:
+				imagemLimiarizada[i][j][0] = 0
+
+			else:
+				imagemLimiarizada[i][j][0] = 255
+				
+	return imagemLimiarizada
+	
+
 def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das funcoes de tratamento de imagem
     loop = True
     global imagemModificada, arrayModificada
@@ -174,9 +336,9 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
         elif opcao == 3:                    #Imagem com banda individual colorida
             print('3')
             bandaType = Tk()
-            btnR =  Button(bandaType, text="Banda R", command= lambda: selecionaBanda('R'))
-            btnG = Button(bandaType, text="Banda G", command= lambda: selecionaBanda('G'))
-            btnB = Button(bandaType, text="Banda B", command= lambda: selecionaBanda('B'))
+            btnR =  Button(bandaType, text="Banda R", command= lambda: selecionaBanda('R','colorida'))
+            btnG = Button(bandaType, text="Banda G", command= lambda: selecionaBanda('G','colorida'))
+            btnB = Button(bandaType, text="Banda B", command= lambda: selecionaBanda('B','colorida'))
             btnR.pack()
             btnG.pack()
             btnB.pack()
@@ -184,6 +346,14 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
 
         elif opcao == 4:                    #Imagem com banda individual monocromática
             print('4')
+            bandaType = Tk()
+            btnR =  Button(bandaType, text="Banda R", command= lambda: selecionaBanda('R','monocromatica'))
+            btnG = Button(bandaType, text="Banda G", command= lambda: selecionaBanda('G','monocromatica'))
+            btnB = Button(bandaType, text="Banda B", command= lambda: selecionaBanda('B','monocromatica'))
+            btnR.pack()
+            btnG.pack()
+            btnB.pack()
+            loop = False
         elif opcao == 5:                    #Imagem negativa
             print('5')
         elif opcao == 6:                    #Controle de brilho aditivo
