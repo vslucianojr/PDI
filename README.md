@@ -15,7 +15,7 @@ Para a realização destes trabalhos foi permitido utilizar qualquer linguagem d
 Utilizando a linguagem python desenvolver um sistema capaz de abrir,exibir e manipular imagens RGB e realizar as seguintes funcionalidades:
 
 - [x] Conversão RGB-YIQ-RGB
-- [ ] Exibição de bandas individuais(R, G e B) como imagens monocromáticas ou coloridas (em tons de R, G e B)
+- [x] Exibição de bandas individuais(R, G e B) como imagens monocromáticas ou coloridas (em tons de R, G e B)
 - [ ] Negativo
 - [ ] Controle de brilho aditivo ( valor do *pixel resultante = valor do pixel original + c*, **sendo c inteiro**)
 - [ ] Controle de brilho multiplicativo ( valor do *pixel resultante = valor do pixel original * c*, **sendo c real não negativo**)

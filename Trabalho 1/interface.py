@@ -20,37 +20,27 @@ def imgLida(caminhoArquivo):
     return Image.open(caminhoArquivo)
 
 
-def exibe(imagem):  # Esta exibindo grande demais, precisa ajustar o tamanho de exibiçao da imagem
+def exibe(imagem):  #Esta exibindo grande demais, precisa ajustar o tamanho de exibiçao da imagem
     imagem.show()
 
 
 def selecionaFuncao():
-    select = listbox.curselection()  # Capturando qual item esta selecionado na listbox
+    select = listbox.curselection()  #Capturando qual item esta selecionado na listbox
     for item in select:
-        # Chamando o seletor de funções passando qual item esta selecionado
-        executaFunc(item)
+        executaFunc(item)            #Chamando o seletor de funções passando qual item esta selecionado
 
-# transforma a imagem em array
-
-
-def imagemArray(imagem):
+def imagemArray(imagem):             #Transforma a imagem em array
     return np.asarray(imagem)
 
-# transforma o array em imagem
-
-
-def arrayImagem(array):
+def arrayImagem(array):              #Transforma o array em imagem
 
     imagem = Image.fromarray(array, mode='RGB')
 
     return imagem
 
-# converte a imagem de RGB para YIQ
+def RGBYIQ(imagemRGB, largura, altura): #Converte a imagem de RGB para YIQ
 
-
-def RGBYIQ(imagemRGB, largura, altura):
-
-    # copia a imagem e transforma array em float para os calculos de conversão
+    #Copia a imagem e transforma array em float para os calculos de conversão
     imagemYIQ = imagemRGB.copy()
     imagemYIQ = imagemYIQ.astype(float)
 
@@ -67,7 +57,7 @@ def RGBYIQ(imagemRGB, largura, altura):
 
 
 def YIQRGB(imagemYIQ, largura, altura):
-    # converter imagem para int
+    #Coonvertendo imagem para int
     imagemRGB = imagemYIQ.astype(int)
 
     for i in range(altura):
@@ -166,7 +156,7 @@ def bandaColorida(arrayDaImagem, largura, altura, banda): #Para a exibicao color
 	else:
 		return arrayDaImagem
 
-def bandaMonocromatica(imagem, largura, altura, banda):
+def bandaMonocromatica(imagem, largura, altura, banda): #Para a exibição monocromática
 	
 	imagemMonocromatica = imagem.copy()
 	
@@ -311,6 +301,7 @@ def filtroLimiarizacaoYIQ(imagem, largura, altura, limiar):
 
 def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das funcoes de tratamento de imagem
     loop = True
+    bandaType = Tk()
     global imagemModificada, arrayModificada
     while loop:
         if opcao == 1:                      #Converter para YIQ
@@ -330,7 +321,6 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
         elif opcao == 3:                    #Imagem com banda individual colorida
             print('3')
             bandaType = Tk()
-
             btnR =  Button(bandaType, text="Banda R", command= lambda: selecionaBanda('R', 'colorida'))
             btnG = Button(bandaType, text="Banda G", command= lambda: selecionaBanda('G', 'colorida'))
             btnB = Button(bandaType, text="Banda B", command= lambda: selecionaBanda('B', 'colorida'))
@@ -341,7 +331,6 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
 
         elif opcao == 4:                    #Imagem com banda individual monocromática
             print('4')
-            bandaType = Tk()
             btnR =  Button(bandaType, text="Banda R", command= lambda: selecionaBanda('R', 'monocromatica'))
             btnG = Button(bandaType, text="Banda G", command= lambda: selecionaBanda('G', 'monocromatica'))
             btnB = Button(bandaType, text="Banda B", command= lambda: selecionaBanda('B', 'monocromatica'))
@@ -349,6 +338,7 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
             btnG.pack()
             btnB.pack()
             loop = False
+            
         elif opcao == 5:                    #Imagem negativa
             print('5')
         elif opcao == 6:                    #Controle de brilho aditivo
