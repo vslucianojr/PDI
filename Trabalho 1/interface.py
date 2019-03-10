@@ -4,6 +4,7 @@ from PIL import Image
 import numpy as np
 import math
 
+global imagemEhRGB
 def selecionaImg():
     # Tornando global para ser acessada pelas demais funcoes
     global imagemOriginal, larguraOriginal, alturaOriginal, arrayOriginal
@@ -211,8 +212,7 @@ def filtroNegativoRGB(imagem, largura, altura):
 	imagemNegativa = imagem.copy()
 	
 	for i in range(altura):
-		for j in range(largura):
-		     # Vai diminuir 255 de cada cor do pixel
+		for j in range(largura): # Vai diminuir 255 de cada cor do pixel
 			imagemNegativa[i][j][0] = 255 - imagem[i][j][0]
 			imagemNegativa[i][j][1] = 255 - imagem[i][j][1]
 			imagemNegativa[i][j][2] = 255 - imagem[i][j][2]
@@ -235,7 +235,7 @@ def filtroNegativoYIQ(imagem, largura, altura):
 def filtroLimiarizacaoRGB(imagem, largura, altura, limiar, banda):
 	
 	imagemLimiarizada = imagem.copy()
-	
+	limiar = int(limiar)
 	if banda is 'R':
 		for i in range(altura):
 			for j in range(largura):
@@ -443,17 +443,46 @@ def filtroMedianaYIQ (imagem, largura, altura, m, n):
 
     return ImagemMediana
 
+def limiarFunc(valor, banda):
+    #print("Valor %s" % (valor.get()))
+    limiar = valor.get()
+    print(limiar)
+    print(banda)
+    if banda is 'R':
+        arrayModificada = filtroLimiarizacaoRGB(arrayOriginal, larguraOriginal, alturaOriginal, limiar, 'R')
+        imagemModificada = arrayImagem(arrayModificada)
+        exibe(imagemModificada)
+    elif banda is 'G':
+        arrayModificada = filtroLimiarizacaoRGB(arrayOriginal, larguraOriginal, alturaOriginal, limiar, 'G')
+        imagemModificada = arrayImagem(arrayModificada)
+        exibe(imagemModificada)
+    elif banda is 'B':
+        arrayModificada = filtroLimiarizacaoRGB(arrayOriginal, larguraOriginal, alturaOriginal, limiar, 'B')
+        imagemModificada = arrayImagem(arrayModificada)
+        exibe(imagemModificada)
+    elif banda is 'V':
+        arrayModificada = filtroLimiarizacaoYIQ(arrayModificada, larguraOriginal, alturaOriginal, limiar)
+        imagemModificada = arrayImagem(arrayModificada)
+        exibe(imagemModificada)
+
+def imagemAlterada(estado):
+    if estado is 0:
+        return False
+    else:
+        return True
+
 def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das funcoes de tratamento de imagem
     loop = True
-    bandaType = Tk()
-    global imagemModificada, arrayModificada
-    imagemModificaIsRGB = True
+    global imagemModificada
+    global arrayModificada
+    global imagemEhRGB
     while loop:
         if opcao == 1:                      #Converter para YIQ
             print('1')
             arrayModificada = RGBYIQ(arrayOriginal, larguraOriginal, alturaOriginal)
             imagemModificada = arrayImagem(arrayModificada)
             exibe(imagemModificada)
+            imagemEhRGB = imagemAlterada(0)
             loop = False
 
         elif opcao == 2:                    #Converter para RGB
@@ -461,11 +490,14 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
             arrayModificada = YIQRGB(arrayModificada, larguraOriginal, alturaOriginal)
             imagemModificada = arrayImagem(arrayModificada)
             exibe(imagemModificada)
+            imagemEhRGB = imagemAlterada(1)
             loop = False
 
         elif opcao == 3:                    #Imagem com banda individual colorida
             print('3')
             bandaType = Tk()
+            bT = Label(bandaType, text='Selecione a Banda')
+            bT.pack()
             btnR =  Button(bandaType, text="Banda R", command= lambda: selecionaBanda('R', 'colorida'))
             btnG = Button(bandaType, text="Banda G", command= lambda: selecionaBanda('G', 'colorida'))
             btnB = Button(bandaType, text="Banda B", command= lambda: selecionaBanda('B', 'colorida'))
@@ -476,6 +508,9 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
 
         elif opcao == 4:                    #Imagem com banda individual monocromática
             print('4')
+            bandaType = Tk()
+            bT = Label(bandaType, text='Selecione a Banda')
+            bT.pack()
             btnR =  Button(bandaType, text="Banda R", command= lambda: selecionaBanda('R', 'monocromatica'))
             btnG = Button(bandaType, text="Banda G", command= lambda: selecionaBanda('G', 'monocromatica'))
             btnB = Button(bandaType, text="Banda B", command= lambda: selecionaBanda('B', 'monocromatica'))
@@ -486,6 +521,16 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
             
         elif opcao == 5:                    #Imagem negativa
             print('5')
+            if imagemEhRGB is True:
+                arrayModificada = filtroNegativoRGB(arrayOriginal, larguraOriginal, alturaOriginal)
+                imagemModificada = arrayImagem(arrayModificada)
+                exibe(imagemModificada)
+            else:
+                arrayModificada = filtroNegativoYIQ(arrayModificada, larguraOriginal, alturaOriginal)
+                imagemModificada = arrayImagem(arrayModificada)
+                exibe(imagemModificada)
+            loop = False
+
         elif opcao == 6:                    #Controle de brilho aditivo
             print('6')
         elif opcao == 7:                    #Controle de brilho multiplicativo
@@ -496,7 +541,7 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
             m = int(input('Qual é a qtd de linhas? '))
             n = int(input('Qual é a qtd de colunas? '))
 			
-            if imagemModificaIsRGB is True:
+            if imagemEhRGB is True:
                 arrayModificada = filtroMedianaRGB(arrayOriginal, larguraOriginal, alturaOriginal, m, n)
                 imagemModificada = arrayImagem(arrayModificada)
                 exibe(imagemModificada)
@@ -509,11 +554,32 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
 
         elif opcao == 10:                   #Limiarizacao
             print('10')
+            if imagemEhRGB is True:
+                limiarUi = Tk()
+                lb = Label(limiarUi, text='Qual o limiar?')
+                lb.pack()
+                lim = Entry(limiarUi)
+                lim.pack()
+                btnR =  Button(limiarUi, text="Banda R", command= lambda: limiarFunc(lim, 'R'))
+                btnG = Button(limiarUi, text="Banda G", command= lambda: limiarFunc(lim, 'G'))
+                btnB = Button(limiarUi, text="Banda B", command= lambda: limiarFunc(lim, 'B'))
+                btnR.pack()
+                btnG.pack()
+                btnB.pack()
+            else:
+                limiarUi = Tk()
+                lb = Label(limiarUi, text="Qual o limiar?")
+                lb.pack()
+                lim = Entry(limiarUi)
+                lim.pack()
+                btnSub = Button(limiarUi, text="Enter", command= lambda: limiarFunc(lim, 'Y'))
+                btnSub.pack()
+            loop = False
+
         elif opcao == 11:                   #Salvar a imagem selecionada
             print('11')
         else:
             print('Opção inválida!')
-
 
 master = Tk()
 master.title("Trabalho 1 - PDI")
