@@ -2,6 +2,7 @@ from tkinter import *  # Graphical User Interface
 from tkinter.filedialog import askopenfilename
 from PIL import Image
 import numpy as np
+import math
 
 def selecionaImg():
     # Tornando global para ser acessada pelas demais funcoes
@@ -299,10 +300,154 @@ def filtroLimiarizacaoYIQ(imagem, largura, altura, limiar):
 				
 	return imagemLimiarizada
 
+def filtroMedianaRGB (imagem, largura, altura, m, n):
+
+    ImagemMediana = imagem.copy()
+
+    limiteAltura = math.floor(m/2)
+    print(limiteAltura)
+     
+    limiteLargura = math.floor(n/2)
+    print( limiteLargura)
+                #Cria uma matriz de 0`s com a dimensáo do Kernel para cada banda.
+                
+    bandaR = np.zeros((m,n), dtype = int) 
+    bandaG = np.zeros((m,n), dtype = int) 
+    bandaB = np.zeros((m,n), dtype = int) 
+
+    soma = 0
+    mediana = 0
+    
+    for i in range(limiteAltura, altura - limiteAltura):               #Laço para percorrer a altura
+        for j in range(limiteLargura, largura - limiteLargura):        #Laço para percorrer a largura
+	
+            contAltura = limiteAltura
+            contLargura = limiteLargura
+			
+            #Laço para percorrer a banda R dos Pixels da parte da imagem referente ao tamanho do Kernel 
+            for k in range(m):
+                for l in range(n):
+                    bandaR[k][l] = imagem[i - contAltura][j - contLargura][0]  #
+                    contLargura -= 1
+                    contAltura -= 1
+                    contLargura = limiteLargura
+
+            #Ordena os valores da banda R	
+            bandaOrdenadoR = np.sort(bandaR, axis = None)
+			
+            #Verififica se a quantidade de elementos do array ordenado é par ou impar e define a mediana	
+
+            if len(bandaOrdenadoR)%2 == 0:
+                soma += bandaOrdenadoR[len(bandaOrdenadoR)/2]
+                soma += bandaOrdenadoR[(len(bandaOrdenadoR)/2) - 1]
+                mediana = int(soma/2)
+            else:
+                mediana = bandaOrdenadoR[math.floor(len(bandaOrdenadoR)/2)]
+	
+            ImagemMediana[i][j][0] = mediana
+			
+            #Reinicializando variáveis
+            mediana = 0
+            soma = 0
+            contAltura = limiteAltura
+            contLargura = limiteLargura
+			
+            for k in range(m):
+                for l in range(n):
+                    bandaG[k][l] = imagem[i - contAltura][j - contLargura][1]
+                    contLargura -= 1
+                    contAltura -= 1
+                    contLargura = limiteLargura
+				
+            bandaOrdenadoG = np.sort(bandaG, axis = None)
+			
+            if len(bandaOrdenadoG)%2 == 0:
+                soma += bandaOrdenadoG[len(bandaOrdenadoG)/2]
+                soma += bandaOrdenadoG[(len(bandaOrdenadoG)/2) - 1]
+                mediana = int(soma/2)
+            else:
+                mediana = bandaOrdenadoG[math.floor(len(bandaOrdenadoG)/2)]
+	
+            ImagemMediana[i][j][1] = mediana
+		
+            mediana = 0
+            soma = 0
+            contAltura = limiteAltura
+            contLargura = limiteLargura
+			
+            for k in range(m):
+                for l in range(n):
+                    bandaB[k][l] = imagem[i - contAltura][j - contLargura][2]
+                    contLargura -= 1
+                contAltura -= 1
+                contLargura = limiteLargura
+				
+            bandaOrdenadaB = np.sort(bandaB, axis = None)
+			
+            if len(bandaOrdenadaB)%2 == 0:
+                soma += bandaOrdenadaB[len(bandaOrdenadaB)/2]
+                soma += bandaOrdenadaB[(len(bandaOrdenadaB)/2) - 1]
+                mediana = int(soma/2)
+            else:
+                mediana = bandaOrdenadaB[math.floor(len(bandaOrdenadaB)/2)]
+	
+			
+            ImagemMediana[i][j][2] = mediana
+			
+			
+    return ImagemMediana
+
+
+def filtroMedianaYIQ (imagem, largura, altura, m, n):
+
+    ImagemMediana = imagem.copy()
+
+    limiteAltura = math.floor(m/2)
+    limiteLargura = math.floor(n/2)
+
+    #Cria uma matriz de 0`s com a dimensáo do Kernel para cada banda.
+                
+    bandaY = np.zeros((m,n), dtype = int) 
+
+
+    soma = 0
+    mediana = 0
+    
+    for i in range(limiteAltura, altura - limiteAltura):               #Laço para percorrer a altura
+        for j in range(limiteLargura, largura - limiteLargura):        #Laço para percorrer a largura
+	
+            contAltura = limiteAltura
+            contLargura = limiteLargura
+			
+            #Laço para percorrer a banda Y dos Pixels da parte da imagem referente ao tamanho do Kernel 
+            for k in range(m):
+                for l in range(n):
+                    bandaY[k][l] = imagem[i - contAltura][j - contLargura][0]  #
+                    contLargura -= 1
+                    contAltura -= 1
+                    contLargura = limiteLargura
+
+            #Ordena os valores da banda y	
+            bandaOrdenadoY = np.sort(bandaY, axis = None)
+			
+            #Verififica se a quantidade de elementos do array ordenado é par ou impar e define a mediana	
+
+            if len(bandaOrdenadoY)%2 == 0:
+                soma += bandaOrdenadoY[len(bandaOrdenadoY)/2]
+                soma += bandaOrdenadoY[(len(bandaOrdenadoY)/2) - 1]
+                mediana = int(soma/2)
+            else:
+                mediana = bandaOrdenadoY[math.floor(len(bandaOrdenadoY)/2)]
+	
+            ImagemMediana[i][j][0] = mediana
+
+    return ImagemMediana
+
 def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das funcoes de tratamento de imagem
     loop = True
     bandaType = Tk()
     global imagemModificada, arrayModificada
+    imagemModificaIsRGB = True
     while loop:
         if opcao == 1:                      #Converter para YIQ
             print('1')
@@ -348,7 +493,20 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
         elif opcao == 8:                    #Convolução mxn
             print('8')
         elif opcao == 9:                    #Filtro mediana
-            print('9')
+            m = int(input('Qual é a qtd de linhas? '))
+            n = int(input('Qual é a qtd de colunas? '))
+			
+            if imagemModificaIsRGB is True:
+                arrayModificada = filtroMedianaRGB(arrayOriginal, larguraOriginal, alturaOriginal, m, n)
+                imagemModificada = arrayImagem(arrayModificada)
+                exibe(imagemModificada)
+			
+           # else:
+           #     arrayModificada = filtroMedianaYIQ(arrayImagemModificada, larguraOriginal, alturaOriginal, m, n)
+           #     imagemModificada = arrayImagem(arrayModificada)
+           #     exibe(imagemModificada)
+           #     loop = False
+
         elif opcao == 10:                   #Limiarizacao
             print('10')
         elif opcao == 11:                   #Salvar a imagem selecionada
