@@ -103,34 +103,34 @@ def YIQRGB(imagemYIQ, largura, altura):
     imagemRGB = np.uint8(imagemRGB)
     
     return imagemRGB
-
-def selecionaBanda(banda,tipo): #Selecionando a banda que será utilizada e o tipo da exibição
+  
+def selecionaBanda(banda, tipo): #Selecionando a banda que será utilizada e o tipo de exibicao
     run = True
     while run:
-        if banda == 'R':
-            if tipo is 'colorida':
+        if banda is 'R':
+            if tipo is 'colorida': 
                 arrayModificada = bandaColorida(arrayOriginal, larguraOriginal, alturaOriginal, banda)
-               
-            elif tipo is 'monocromatica':
-                arrayModificada = bandaMonocromatica(arrayOriginal, larguraOriginal, alturaOriginal, banda)
-            imagemModificada = arrayImagem(arrayModificada)
-            exibe(imagemModificada)
-            run = False
 
-        elif banda == 'G':
-            if tipo is 'colorida':
-                arrayModificada = bandaColorida(arrayOriginal, larguraOriginal, alturaOriginal, banda)
-               
             elif tipo is 'monocromatica':
                 arrayModificada = bandaMonocromatica(arrayOriginal, larguraOriginal, alturaOriginal, banda)
             imagemModificada = arrayImagem(arrayModificada)
             exibe(imagemModificada)
             run = False
             
-        elif banda == 'B':
-            if tipo is 'colorida':
+        elif banda is 'G':
+            if tipo is 'colorida': 
                 arrayModificada = bandaColorida(arrayOriginal, larguraOriginal, alturaOriginal, banda)
-               
+                
+            elif tipo is 'monocromatica':
+                arrayModificada = bandaMonocromatica(arrayOriginal, larguraOriginal, alturaOriginal, banda)
+            imagemModificada = arrayImagem(arrayModificada)
+            exibe(imagemModificada)
+            run = False
+            
+        elif banda is 'B':
+            if tipo is 'colorida': 
+                arrayModificada = bandaColorida(arrayOriginal, larguraOriginal, alturaOriginal, banda)
+                
             elif tipo is 'monocromatica':
                 arrayModificada = bandaMonocromatica(arrayOriginal, larguraOriginal, alturaOriginal, banda)
             imagemModificada = arrayImagem(arrayModificada)
@@ -139,7 +139,8 @@ def selecionaBanda(banda,tipo): #Selecionando a banda que será utilizada e o ti
         else:
             return
 
-def bandaColorida(arrayDaImagem, largura, altura, banda): # Para exibição colorida
+def bandaColorida(arrayDaImagem, largura, altura, banda): #Para a exibicao colorida
+  
 	arrayDaImagem = arrayDaImagem.copy()
 	if banda is 'R':
 		for i in range(altura):
@@ -209,12 +210,6 @@ def bandaMonocromatica(imagem, largura, altura, banda):
 	else:
 		return imagemMonocromatica
 
-
-
-
-
-	
-    
 #Troca as cores do pixel
 #verde -> magenta,
 #azul -> amarelo, 
@@ -313,7 +308,6 @@ def filtroLimiarizacaoYIQ(imagem, largura, altura, limiar):
 				imagemLimiarizada[i][j][0] = 255
 				
 	return imagemLimiarizada
-	
 
 def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das funcoes de tratamento de imagem
     loop = True
@@ -336,9 +330,10 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
         elif opcao == 3:                    #Imagem com banda individual colorida
             print('3')
             bandaType = Tk()
-            btnR =  Button(bandaType, text="Banda R", command= lambda: selecionaBanda('R','colorida'))
-            btnG = Button(bandaType, text="Banda G", command= lambda: selecionaBanda('G','colorida'))
-            btnB = Button(bandaType, text="Banda B", command= lambda: selecionaBanda('B','colorida'))
+
+            btnR =  Button(bandaType, text="Banda R", command= lambda: selecionaBanda('R', 'colorida'))
+            btnG = Button(bandaType, text="Banda G", command= lambda: selecionaBanda('G', 'colorida'))
+            btnB = Button(bandaType, text="Banda B", command= lambda: selecionaBanda('B', 'colorida'))
             btnR.pack()
             btnG.pack()
             btnB.pack()
@@ -347,9 +342,9 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
         elif opcao == 4:                    #Imagem com banda individual monocromática
             print('4')
             bandaType = Tk()
-            btnR =  Button(bandaType, text="Banda R", command= lambda: selecionaBanda('R','monocromatica'))
-            btnG = Button(bandaType, text="Banda G", command= lambda: selecionaBanda('G','monocromatica'))
-            btnB = Button(bandaType, text="Banda B", command= lambda: selecionaBanda('B','monocromatica'))
+            btnR =  Button(bandaType, text="Banda R", command= lambda: selecionaBanda('R', 'monocromatica'))
+            btnG = Button(bandaType, text="Banda G", command= lambda: selecionaBanda('G', 'monocromatica'))
+            btnB = Button(bandaType, text="Banda B", command= lambda: selecionaBanda('B', 'monocromatica'))
             btnR.pack()
             btnG.pack()
             btnB.pack()
