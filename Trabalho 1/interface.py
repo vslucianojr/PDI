@@ -11,7 +11,7 @@ sobelVertical = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
 global sobelHorizontal
 sobelHorizontal = np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]])
 global bias
-bias = 1
+bias = 0
 
 
 def selecionaImg():
@@ -417,8 +417,6 @@ def brilhoFunc(fator, tipo):
         exibe(imagemModificada)
 
 # --------------------------------- LIMIARIZAÇÃO -----------------------------------------------------------
-
-
 # Separa a imagem em dois grupos:
 # pixels com valores abaixo do limiar
 # pixels acima do valor do limiar
@@ -822,6 +820,17 @@ def convolucaoYIQ(imagem, largura, altura, mascara):
 	
 	return imagemConvolucionada
 
+def convolucaoFunc(filtro, tipo):
+    if tipo is 'RGB':
+        arrayModificada = convolucaoRGB(arrayOriginal, larguraOriginal, alturaOriginal, filtro)
+        imagemModificada = arrayImagem(arrayModificada)
+        exibe(imagemModificada)
+    
+    elif tipo is 'YIQ':
+        arrayModificada = convolucaoYIQ(arrayModificada, larguraOriginal, alturaOriginal, filtro)
+        imagemModificada = arrayImagem(arrayModificada)
+        exibe(imagemModificada)
+
 def imagemAlterada(estado):
     if estado is 0:
         return False
@@ -919,6 +928,28 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
 
         elif opcao == 8:                    #Convolução mxn
             print('8')
+            if imagemEhRGB is True:
+                convolucaoUi = Tk()
+                lbConvolucao = Label(convolucaoUi, text="Selecione o Filtro!")
+                lbConvolucao.pack()
+                btnMedia = Button(convolucaoUi, text="Media", width=13, command= lambda: convolucaoFunc('media', 'RGB'))
+                btnSobelV = Button(convolucaoUi, text="Sobel Vertical", width=13, command= lambda: convolucaoFunc("sobelVertical", 'RGB'))
+                btnSobelH = Button(convolucaoUi, text="Sobel Horizontal", width=13, command= lambda: convolucaoFunc("sobelHorizontal", 'RGB'))
+                btnMedia.pack()
+                btnSobelV.pack()
+                btnSobelH.pack()
+            else:
+                convolucaoUi = Tk()
+                lbConvolucao = Label(convolucaoUi, text="Selecione o Filtro!")
+                lbConvolucao.pack()
+                btnMedia = Button(convolucaoUi, text="Media", width=13, command= lambda: convolucaoFunc("media", 'YIQ'))
+                btnSobelV = Button(convolucaoUi, text="Sobel Vertical", width=13, command= lambda: convolucaoFunc("sobelVertical", 'YIQ'))
+                btnSobelH = Button(convolucaoUi, text="Sobel Horizontal", width=13, command= lambda: convolucaoFunc("sobelHorizontal", 'YIQ'))
+                btnMedia.pack()
+                btnSobelV.pack()
+                btnSobelH.pack()
+            loop = False
+
         elif opcao == 9:                    #Filtro mediana
             print('8')
             medianaUi = Tk()

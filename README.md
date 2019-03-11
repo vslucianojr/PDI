@@ -19,6 +19,6 @@ Utilizando a linguagem python desenvolver um sistema capaz de abrir,exibir e man
 - [x] Negativo
 - [x] Controle de brilho aditivo ( valor do *pixel resultante = valor do pixel original + c*, **sendo c inteiro**)
 - [x] Controle de brilho multiplicativo ( valor do *pixel resultante = valor do pixel original * c*, **sendo c real não negativo**)
-- [ ] Convolução *m x n* com bias(viés, offset). Testar com filtros Média e Sobel.
+- [x] Convolução *m x n* com bias(viés, offset). Testar com filtros Média e Sobel.
 - [x] Filtro mediana *m x n*
 - [x] Limiarização com limiar m escolhido pelo usuário.
