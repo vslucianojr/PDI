@@ -230,7 +230,7 @@ def filtroNegativoRGB(imagem, largura, altura):
 	return imagemNegativa
 
 def filtroNegativoYIQ(imagem, largura, altura):
-	
+	int
 	imagemNegativa = imagem.copy()
 	
 	for i in range(altura):
@@ -240,140 +240,140 @@ def filtroNegativoYIQ(imagem, largura, altura):
 	return imagemNegativa
 #--------------------------------- CONTROLE DE BRILHO -----------------------------------------------------------
 
-def brilhoAditivoRGB (imagem, largura, altura):
+# def brilhoAditivoRGB (imagem, largura, altura):
 
-    imagemFinal = imagem.copy()
+#     imagemFinal = imagem.copy()
 
-    if type(c) != int:
-        c = int(c)
+#     if type(c) != int:
+#         c = int(c)
 
 
-    for i in range(altura):
-        for j in range(largura):
+#     for i in range(altura):
+#         for j in range(largura):
 
-            #Aplicando o brilho em R
+#             #Aplicando o brilho em R
 
-            valor = imagemFinal[i][j][0].copy()
-            limite = valor + c
+#             valor = imagemFinal[i][j][0].copy()
+#             limite = valor + c
 
-           #Defnindo os limites
-            if limite > 255:
-                imagemFinal[i][j][0] = 255
-            elif limite < 0:
-                imagemFinal[i][j][0] = 0
-            else:
-                imagemFinal[i][j][0] += c
+#            #Defnindo os limites
+#             if limite > 255:
+#                 imagemFinal[i][j][0] = 255
+#             elif limite < 0:
+#                 imagemFinal[i][j][0] = 0
+#             else:
+#                 imagemFinal[i][j][0] += c
 
-            #Aplicando o brilho em G
+#             #Aplicando o brilho em G
 
-            valor = imagemFinal[i][j][1].copy()
-            limite = valor + c
-            if limite > 255:
-                imagemFinal[i][j][1] = 255
-            elif limite < 0:
-                imagemFinal[i][j][1] = 0
-            else:
-                imagemFinal[i][j][1] += c
+#             valor = imagemFinal[i][j][1].copy()
+#             limite = valor + c
+#             if limite > 255:
+#                 imagemFinal[i][j][1] = 255
+#             elif limite < 0:
+#                 imagemFinal[i][j][1] = 0
+#             else:
+#                 imagemFinal[i][j][1] += c
 
-            #Aplicando o brilho em B
+#             #Aplicando o brilho em B
 
-            valor = imagemFinal[i][j][2].copy()
-            limite = valor + c
-            if limite > 255:
-                imagemFinal[i][j][2] = 255
-            elif limite < 0:
-                imagemFinal[i][j][2] = 0
-            else:
-                imagemFinal[i][j][2] += c
+#             valor = imagemFinal[i][j][2].copy()
+#             limite = valor + c
+#             if limite > 255:
+#                 imagemFinal[i][j][2] = 255
+#             elif limite < 0:
+#                 imagemFinal[i][j][2] = 0
+#             else:
+#                 imagemFinal[i][j][2] += c
 
-    return imagemFinal
+#     return imagemFinal
     
-def brilhoMultiplicativoRGB (imagem, largura, altura, fator):
+# def brilhoMultiplicativoRGB (imagem, largura, altura, fator):
 
-    imagemFinal = imagem.copy()
+#     imagemFinal = imagem.copy()
 
-    if fator < 0:
-        return imagemFinal
-
-
-    for i in range(altura):
-        for j in range(largura):
+#     if fator < 0:
+#         return imagemFinal
 
 
-            #Aplicando o brilho em R
-            valor = imagemFinal[i][j][0].copy()
-            limite = valor * fator
+#     for i in range(altura):
+#         for j in range(largura):
 
-            if limite < 255:
-                imagemFinal[i][j][0] = limite
-            else:
-                imagemFinal[i][j][0] = 255
 
-            #Aplicando o brilho em G
-            valor = imagemFinal[i][j][1].copy()
-            limite = valor * fator
+#             #Aplicando o brilho em R
+#             valor = imagemFinal[i][j][0].copy()
+#             limite = valor * fator
 
-            if limite < 255:
-                imagemFinal[i][j][1] = limite
-            else:
-                imagemFinal[i][j][1] = 255
+#             if limite < 255:
+#                 imagemFinal[i][j][0] = limite
+#             else:
+#                 imagemFinal[i][j][0] = 255
 
-            #Aplicando o brilho em B
-            valor = imagemFinal[i][j][2].copy()
-            limite = valor * fator
+#             #Aplicando o brilho em G
+#             valor = imagemFinal[i][j][1].copy()
+#             limite = valor * fator
 
-            if limite < 255:
-                imagemFinal[i][j][2] = limite
-            else:
-                imagemFinal[i][j][2] = 255
+#             if limite < 255:
+#                 imagemFinal[i][j][1] = limite
+#             else:
+#                 imagemFinal[i][j][1] = 255
+
+#             #Aplicando o brilho em B
+#             valor = imagemFinal[i][j][2].copy()
+#             limite = valor * fator
+
+#             if limite < 255:
+#                 imagemFinal[i][j][2] = limite
+#             else:
+#                 imagemFinal[i][j][2] = 255
        
-    return imagemFinal
+#     return imagemFinal
 
 
-def brilhoAditivoYIQ (imagem, largura, altura):
+# def brilhoAditivoYIQ (imagem, largura, altura):
 
-    imagemFinal = imagem.copy()
+#     imagemFinal = imagem.copy()
 
-    if type(c) != int:
-        c = int(c)
-
-
-    for i in range(altura):
-        for j in range(largura):
-
-            #Aplicando o brilho em y
-
-            valor = imagemFinal[i][j][0].copy()
-            limite = valor + c
-
-           #Defnindo os limites
-            if limite > 255:
-                imagemFinal[i][j][0] = 255
-            elif limite < 0:
-                imagemFinal[i][j][0] = 0
-            else:
-                imagemFinal[i][j][0] += c
-
-    return imagemFinal
-
-def brilhoMultiplicativoYIQ (imagem, largura, altura, fator):
-
-    imagemFinal = imagem.copy()
-
-    for i in range(altura):
-        for j in range(largura):
+#     if type(c) != int:
+#         c = int(c)
 
 
-            #Aplicando o brilho em Y
-            valor = imagemFinal[i][j][0].copy()
-            limite = valor * fator
+#     for i in range(altura):
+#         for j in range(largura):
 
-            if limite < 255:
-                imagemFinal[i][j][0] = limite
-            else:
-                imagemFinal[i][j][0] = 255
-    
-    return imagemFinal
+#             #Aplicando o brilho em y
+
+#             valor = imagemFinal[i][j][0].copy()
+#             limite = valor + c
+
+#            #Defnindo os limites
+#             if limite > 255:
+#                 imagemFinal[i][j][0] = 255
+#             elif limite < 0:
+#                 imagemFinal[i][j][0] = 0
+#             else:
+#                 imagemFinal[i][j][0] += c
+
+#     return imagemFinal
+
+# def brilhoMultiplicativoYIQ (imagem, largura, altura, fator):
+
+#     imagemFinal = imagem.copy()
+
+#     for i in range(altura):
+#         for j in range(largura):
+
+
+#             #Aplicando o brilho em Y
+#             valor = imagemFinal[i][j][0].copy()
+#             limite = valor * fator
+
+#             if limite < 255:
+#                 imagemFinal[i][j][0] = limite
+#             else:
+#                 imagemFinal[i][j][0] = 255
+#     int
+#     return imagemFinal
 #--------------------------------- LIMIARIZAÇÃO -----------------------------------------------------------
 
 
@@ -384,7 +384,7 @@ def brilhoMultiplicativoYIQ (imagem, largura, altura, fator):
 def filtroLimiarizacaoRGB(imagem, largura, altura, limiar, banda):
 	
 	imagemLimiarizada = imagem.copy()
-	
+	limiar = int(limiar)
 	if banda is 'R':
 		for i in range(altura):
 			for j in range(largura):
@@ -437,8 +437,7 @@ def filtroLimiarizacaoRGB(imagem, largura, altura, limiar, banda):
 def filtroLimiarizacaoYIQ(imagem, largura, altura, limiar):
 	
 	imagemLimiarizada = imagem.copy()
-	
-
+	limiar = int(limiar)
 	for i in range(altura):
 		for j in range(largura):
 			if imagemLimiarizada[i][j][0] <= limiar:
@@ -449,11 +448,34 @@ def filtroLimiarizacaoYIQ(imagem, largura, altura, limiar):
 				
 	return imagemLimiarizada
 
+def limiarFunc(valor, banda):
+    #print("Valor %s" % (valor.get()))
+    limiar = valor.get()
+    print(limiar)
+    print(banda)
+    global arrayModificada
+    global imagemModificada
+    if banda is 'R':
+        arrayModificada = filtroLimiarizacaoRGB(arrayOriginal, larguraOriginal, alturaOriginal, limiar, 'R')
+        imagemModificada = arrayImagem(arrayModificada)
+        exibe(imagemModificada)
+    elif banda is 'G':
+        arrayModificada = filtroLimiarizacaoRGB(arrayOriginal, larguraOriginal, alturaOriginal, limiar, 'G')
+        imagemModificada = arrayImagem(arrayModificada)
+        exibe(imagemModificada)
+    elif banda is 'B':
+        arrayModificada = filtroLimiarizacaoRGB(arrayOriginal, larguraOriginal, alturaOriginal, limiar, 'B')
+        imagemModificada = arrayImagem(arrayModificada)
+        exibe(imagemModificada)
+    elif banda is 'Y':
+        arrayModificada = filtroLimiarizacaoYIQ(arrayModificada, larguraOriginal, alturaOriginal, limiar)
+        imagemModificada = arrayImagem(arrayModificada)
+        exibe(imagemModificada)
+
 #--------------------------------- MEDIANA -----------------------------------------------------------
-
-
 def filtroMedianaRGB (imagem, largura, altura, m, n):
-
+    m = int(m)
+    n = int(n)
     ImagemMediana = imagem.copy()
 
     limiteAltura = math.floor(m/2)
@@ -595,21 +617,32 @@ def filtroMedianaYIQ (imagem, largura, altura, m, n):
 
     return ImagemMediana
 
+def medianafunc(m, n):
+    p = m.get()
+    q = n.get()
+    arrayModificada = filtroMedianaRGB(arrayOriginal, larguraOriginal, alturaOriginal, p, q)
+    imagemModificada = arrayImagem(arrayModificada)
+    exibe(imagemModificada)
 
 #--------------------------------- CHAMADA DAS FUNÇÕES -----------------------------------------------------------
-
+def imagemAlterada(estado):
+    if estado is 0:
+        return False
+    else:
+        return True
 
 def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das funcoes de tratamento de imagem
     loop = True
-    bandaType = Tk()
-    global imagemModificada, arrayModificada, fator
-    imagemModificaIsRGB = True
+    global imagemModificada
+    global arrayModificada
+    global imagemEhRGB
     while loop:
         if opcao == 1:                      #Converter para YIQ
             print('1')
             arrayModificada = RGBYIQ(arrayOriginal, larguraOriginal, alturaOriginal)
             imagemModificada = arrayImagem(arrayModificada)
             exibe(imagemModificada)
+            imagemEhRGB = imagemAlterada(0) #Alterada para False 
             loop = False
 
         elif opcao == 2:                    #Converter para RGB
@@ -617,10 +650,14 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
             arrayModificada = YIQRGB(arrayModificada, larguraOriginal, alturaOriginal)
             imagemModificada = arrayImagem(arrayModificada)
             exibe(imagemModificada)
+            imagemEhRGB = imagemAlterada(1) #Alterada para True
             loop = False
 
         elif opcao == 3:                    #Imagem com banda individual colorida
             print('3')
+            bandaType = Tk()
+            bT = Label(bandaType, text='Selecione a Banda')
+            bT.pack()
             bandaType = Tk()
             btnR =  Button(bandaType, text="Banda R", command= lambda: selecionaBanda('R', 'colorida'))
             btnG = Button(bandaType, text="Banda G", command= lambda: selecionaBanda('G', 'colorida'))
@@ -632,6 +669,9 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
 
         elif opcao == 4:                    #Imagem com banda individual monocromática
             print('4')
+            bandaType = Tk()
+            bT = Label(bandaType, text='Selecione a Banda')
+            bT.pack()
             btnR =  Button(bandaType, text="Banda R", command= lambda: selecionaBanda('R', 'monocromatica'))
             btnG = Button(bandaType, text="Banda G", command= lambda: selecionaBanda('G', 'monocromatica'))
             btnB = Button(bandaType, text="Banda B", command= lambda: selecionaBanda('B', 'monocromatica'))
@@ -642,8 +682,7 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
             
         elif opcao == 5:                    #Imagem negativa
             print('5')
-
-            if imagemModificaIsRGB is True:
+            if imagemEhRGB is True:
                 arrayModificada = filtroNegativoRGB(arrayOriginal, larguraOriginal, alturaOriginal)
                 imagemModificada = arrayImagem(arrayModificada)
                 exibe(imagemModificada)
@@ -656,44 +695,74 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
                 loop = False     
 
         elif opcao == 6:                    #Controle de brilho aditivo
-            fator = int(input('Informe o fator de Adição! '))
+            print('6')
+            # fator = int(input('Informe o fator de Adição! '))
             
-        if imagemModificaIsRGB is True:
-            arrayModificada = brilhoMultiplicativoRGB(arrayOriginal, larguraOriginal, alturaOriginal, fator)
-            imagemModificada = arrayImagem(arrayModificada)
-            exibe(imagemModificada)
-            loop = False
-
+            # if imagemModificaIsRGB is True:
+            #     arrayModificada = brilhoMultiplicativoRGB(arrayOriginal, larguraOriginal, alturaOriginal, fator)
+            #     imagemModificada = arrayImagem(arrayModificada)
+            #     exibe(imagemModificada)
+            #     loop = False
+            # 
         elif opcao == 7:                    #Controle de brilho multiplicativo
-            fator = int(input('Informe o fator de Multiplicação! '))
+            print('7')
+            # fator = int(input('Informe o fator de Multiplicação! '))
             
-        if imagemModificaIsRGB is True:
-            arrayModificada = brilhoMultiplicativoRGB(arrayOriginal, larguraOriginal, alturaOriginal, fator)
-            imagemModificada = arrayImagem(arrayModificada)
-            exibe(imagemModificada)
-            loop = False
-
-
+            # if imagemModificaIsRGB is True:
+            #     arrayModificada = brilhoMultiplicativoRGB(arrayOriginal, larguraOriginal, alturaOriginal, fator)
+            #     imagemModificada = arrayImagem(arrayModificada)
+            #     exibe(imagemModificada)
+            #     loop = False
 
         elif opcao == 8:                    #Convolução mxn
             print('8')
         elif opcao == 9:                    #Filtro mediana
-            m = int(input('Qual é a qtd de linhas? '))
-            n = int(input('Qual é a qtd de colunas? '))
-			
-            if imagemModificaIsRGB is True:
+            medianaUi = Tk()
+            lbMediana = Label(medianaUi, text='Insira os valores M e N')
+            lbMediana.pack()
+            lbM = Label(medianaUi, text='M =')
+            lbN = Label(medianaUi, text='N =')
+            m = Entry(medianaUi)
+            n = Entry(medianaUi)
+            lbM.pack()
+            m.pack()
+            lbN.pack()
+            n.pack()
+            if imagemEhRGB is True:
+                btnMed = Button(medianaUi, text='Enter', command= lambda: medianafunc(m, n))
+                btnMed.pack()
                 arrayModificada = filtroMedianaRGB(arrayOriginal, larguraOriginal, alturaOriginal, m, n)
                 imagemModificada = arrayImagem(arrayModificada)
                 exibe(imagemModificada)
-			
-           # else:
-           #     arrayModificada = filtroMedianaYIQ(arrayImagemModificada, larguraOriginal, alturaOriginal, m, n)
-           #     imagemModificada = arrayImagem(arrayModificada)
-           #     exibe(imagemModificada)
-           #     loop = False
+            else:
+               arrayModificada = filtroMedianaYIQ(arrayModificada, larguraOriginal, alturaOriginal, m, n)
+               imagemModificada = arrayImagem(arrayModificada)
+               exibe(imagemModificada)
+            loop = False
 
         elif opcao == 10:                   #Limiarizacao
             print('10')
+            if imagemEhRGB is True:
+                limiarUi = Tk()
+                lb = Label(limiarUi, text='Qual o limiar?')
+                lb.pack()
+                lim = Entry(limiarUi)
+                lim.pack()
+                btnR =  Button(limiarUi, text="Banda R", command= lambda: limiarFunc(lim, 'R'))
+                btnG = Button(limiarUi, text="Banda G", command= lambda: limiarFunc(lim, 'G'))
+                btnB = Button(limiarUi, text="Banda B", command= lambda: limiarFunc(lim, 'B'))
+                btnR.pack()
+                btnG.pack()
+                btnB.pack()
+            else:
+                limiarUi = Tk()
+                lb = Label(limiarUi, text="Qual o limiar?")
+                lb.pack()
+                lim = Entry(limiarUi)
+                lim.pack()
+                btnSub = Button(limiarUi, text="Enter", command= lambda: limiarFunc(lim, 'Y'))
+                btnSub.pack()
+            loop = False
         elif opcao == 11:                   #Salvar a imagem selecionada
             print('11')
         else:
