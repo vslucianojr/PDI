@@ -266,140 +266,156 @@ def filtroNegativoYIQ(imagem, largura, altura):
 	return imagemNegativa
 # --------------------------------- CONTROLE DE BRILHO -----------------------------------------------------------
 
-# def brilhoAditivoRGB (imagem, largura, altura):
+def brilhoAditivoRGB (imagem, largura, altura, fator):
+    fator = int(fator)
+    imagemFinal = imagem.copy()
 
-#     imagemFinal = imagem.copy()
+    for i in range(altura):
+        for j in range(largura):
 
-#     if type(c) != int:
-#         c = int(c)
+            #Aplicando o brilho em R
 
+            valor = imagemFinal[i][j][0].copy()
+            limite = valor + fator
 
-#     for i in range(altura):
-#         for j in range(largura):
+           #Defnindo os limites
+            if limite > 255:
+                imagemFinal[i][j][0] = 255
+            elif limite < 0:
+                imagemFinal[i][j][0] = 0
+            else:
+                imagemFinal[i][j][0] += fator
 
-#             #Aplicando o brilho em R
+            #Aplicando o brilho em G
 
-#             valor = imagemFinal[i][j][0].copy()
-#             limite = valor + c
+            valor = imagemFinal[i][j][1].copy()
+            limite = valor + fator
+            if limite > 255:
+                imagemFinal[i][j][1] = 255
+            elif limite < 0:
+                imagemFinal[i][j][1] = 0
+            else:
+                imagemFinal[i][j][1] += fator
 
-#            #Defnindo os limites
-#             if limite > 255:
-#                 imagemFinal[i][j][0] = 255
-#             elif limite < 0:
-#                 imagemFinal[i][j][0] = 0
-#             else:
-#                 imagemFinal[i][j][0] += c
+            #Aplicando o brilho em B
 
-#             #Aplicando o brilho em G
+            valor = imagemFinal[i][j][2].copy()
+            limite = valor + fator
+            if limite > 255:
+                imagemFinal[i][j][2] = 255
+            elif limite < 0:
+                imagemFinal[i][j][2] = 0
+            else:
+                imagemFinal[i][j][2] += fator
 
-#             valor = imagemFinal[i][j][1].copy()
-#             limite = valor + c
-#             if limite > 255:
-#                 imagemFinal[i][j][1] = 255
-#             elif limite < 0:
-#                 imagemFinal[i][j][1] = 0
-#             else:
-#                 imagemFinal[i][j][1] += c
+    return imagemFinal
 
-#             #Aplicando o brilho em B
+def brilhoMultiplicativoRGB (imagem, largura, altura, fator):
+    fator = int(fator)
+    imagemFinal = imagem.copy()
 
-#             valor = imagemFinal[i][j][2].copy()
-#             limite = valor + c
-#             if limite > 255:
-#                 imagemFinal[i][j][2] = 255
-#             elif limite < 0:
-#                 imagemFinal[i][j][2] = 0
-#             else:
-#                 imagemFinal[i][j][2] += c
-
-#     return imagemFinal
-
-# def brilhoMultiplicativoRGB (imagem, largura, altura, fator):
-
-#     imagemFinal = imagem.copy()
-
-#     if fator < 0:
-#         return imagemFinal
+    if fator < 0:
+        return imagemFinal
 
 
-#     for i in range(altura):
-#         for j in range(largura):
+    for i in range(altura):
+        for j in range(largura):
 
 
-#             #Aplicando o brilho em R
-#             valor = imagemFinal[i][j][0].copy()
-#             limite = valor * fator
+            #Aplicando o brilho em R
+            valor = imagemFinal[i][j][0].copy()
+            limite = valor * fator
 
-#             if limite < 255:
-#                 imagemFinal[i][j][0] = limite
-#             else:
-#                 imagemFinal[i][j][0] = 255
+            if limite < 255:
+                imagemFinal[i][j][0] = limite
+            else:
+                imagemFinal[i][j][0] = 255
 
-#             #Aplicando o brilho em G
-#             valor = imagemFinal[i][j][1].copy()
-#             limite = valor * fator
+            #Aplicando o brilho em G
+            valor = imagemFinal[i][j][1].copy()
+            limite = valor * fator
 
-#             if limite < 255:
-#                 imagemFinal[i][j][1] = limite
-#             else:
-#                 imagemFinal[i][j][1] = 255
+            if limite < 255:
+                imagemFinal[i][j][1] = limite
+            else:
+                imagemFinal[i][j][1] = 255
 
-#             #Aplicando o brilho em B
-#             valor = imagemFinal[i][j][2].copy()
-#             limite = valor * fator
+            #Aplicando o brilho em B
+            valor = imagemFinal[i][j][2].copy()
+            limite = valor * fator
 
-#             if limite < 255:
-#                 imagemFinal[i][j][2] = limite
-#             else:
-#                 imagemFinal[i][j][2] = 255
+            if limite < 255:
+                imagemFinal[i][j][2] = limite
+            else:
+                imagemFinal[i][j][2] = 255
 
-#     return imagemFinal
-
-
-# def brilhoAditivoYIQ (imagem, largura, altura):
-
-#     imagemFinal = imagem.copy()
-
-#     if type(c) != int:
-#         c = int(c)
+    return imagemFinal
 
 
-#     for i in range(altura):
-#         for j in range(largura):
+def brilhoAditivoYIQ (imagem, largura, altura, fator):
+    fator = int(fator)
+    imagemFinal = imagem.copy()
 
-#             #Aplicando o brilho em y
+    for i in range(altura):
+        for j in range(largura):
 
-#             valor = imagemFinal[i][j][0].copy()
-#             limite = valor + c
+            #Aplicando o brilho em y
 
-#            #Defnindo os limites
-#             if limite > 255:
-#                 imagemFinal[i][j][0] = 255
-#             elif limite < 0:
-#                 imagemFinal[i][j][0] = 0
-#             else:
-#                 imagemFinal[i][j][0] += c
+            valor = imagemFinal[i][j][0].copy()
+            limite = valor + fator
 
-#     return imagemFinal
+           #Defnindo os limites
+            if limite > 255:
+                imagemFinal[i][j][0] = 255
+            elif limite < 0:
+                imagemFinal[i][j][0] = 0
+            else:
+                imagemFinal[i][j][0] += fator
 
-# def brilhoMultiplicativoYIQ (imagem, largura, altura, fator):
+    return imagemFinal
 
-#     imagemFinal = imagem.copy()
+def brilhoMultiplicativoYIQ (imagem, largura, altura, fator):
+    fator = int(fator)
+    imagemFinal = imagem.copy()
 
-#     for i in range(altura):
-#         for j in range(largura):
+    for i in range(altura):
+        for j in range(largura):
 
 
-#             #Aplicando o brilho em Y
-#             valor = imagemFinal[i][j][0].copy()
-#             limite = valor * fator
+            #Aplicando o brilho em Y
+            valor = imagemFinal[i][j][0].copy()
+            limite = valor * fator
 
-#             if limite < 255:
-#                 imagemFinal[i][j][0] = limite
-#             else:
-#                 imagemFinal[i][j][0] = 255
-#     int
-#     return imagemFinal
+            if limite < 255:
+                imagemFinal[i][j][0] = limite
+            else:
+                imagemFinal[i][j][0] = 255
+
+    return imagemFinal
+
+def brilhoFunc(fator, tipo):
+    valor = fator.get()
+
+    if imagemEhRGB is True and tipo is 'Aditivo':
+        arrayModificada = brilhoAditivoRGB(arrayOriginal, larguraOriginal, alturaOriginal, valor)
+        imagemModificada = arrayImagem(arrayModificada)
+        exibe(imagemModificada)
+
+    elif imagemEhRGB is False and tipo is 'Aditivo':
+        arrayModificada = brilhoAditivoYIQ(arrayModificada, larguraOriginal, alturaOriginal, valor)
+        imagemModificada = arrayImagem(arrayModificada)
+        exibe(imagemModificada)
+
+    elif imagemEhRGB is True and tipo is 'Multiplicativo':
+        arrayModificada = brilhoMultiplicativoRGB(arrayOriginal, larguraOriginal, alturaOriginal, valor)
+        imagemModificada = arrayImagem(arrayModificada)
+        exibe(imagemModificada)
+    
+    elif imagemEhRGB is False and tipo is 'Multiplicativo':
+        arrayModificada = brilhoMultiplicativoRGB(arrayModificada, larguraOriginal, alturaOriginal, valor)
+        imagemModificada = arrayImagem(arrayModificada)
+        exibe(imagemModificada)
+
 # --------------------------------- LIMIARIZAÇÃO -----------------------------------------------------------
 
 
@@ -881,23 +897,25 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
 
         elif opcao == 6:                    #Controle de brilho aditivo
             print('6')
-            # fator = int(input('Informe o fator de Adição! '))
-            
-            # if imagemModificaIsRGB is True:
-            #     arrayModificada = brilhoMultiplicativoRGB(arrayOriginal, larguraOriginal, alturaOriginal, fator)
-            #     imagemModificada = arrayImagem(arrayModificada)
-            #     exibe(imagemModificada)
-            #     loop = False
-            # 
+            aditivoUi = Tk()
+            lbAditivo = Label(aditivoUi, text='Insira o fator de Adição')
+            lbAditivo.pack()
+            adt = Entry(aditivoUi)
+            adt.pack()
+            btnAd = Button(aditivoUi, text="Enter", command= lambda: brilhoFunc(adt, 'Aditivo'))
+            btnAd.pack()
+            loop = False
+             
         elif opcao == 7:                    #Controle de brilho multiplicativo
             print('7')
-            # fator = int(input('Informe o fator de Multiplicação! '))
-            
-            # if imagemModificaIsRGB is True:
-            #     arrayModificada = brilhoMultiplicativoRGB(arrayOriginal, larguraOriginal, alturaOriginal, fator)
-            #     imagemModificada = arrayImagem(arrayModificada)
-            #     exibe(imagemModificada)
-            #     loop = False
+            multipUi = Tk()
+            lbMulti = Label(multipUi, text='Insira o fator de Multiplicacao')
+            lbMulti.pack()
+            adm = Entry(multipUi)
+            adm.pack()
+            btnMu = Button(multipUi, text="Enter", command= lambda: brilhoFunc(adm, 'Multiplicativo'))
+            btnMu.pack()
+            loop = False
 
         elif opcao == 8:                    #Convolução mxn
             print('8')
