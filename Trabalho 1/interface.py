@@ -5,12 +5,14 @@ import numpy as np
 import math
 
 global media
+media = np.array([[1/9, 1/9, 1/9], [1/9, 1/9, 1/9], [1/9, 1/9, 1/9]])
 global sobelVertical
-sobelVertical = np.array ([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
+sobelVertical = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
 global sobelHorizontal
-sobelHorizontal = np.array ([[1, 2, 1],[0, 0, 0],[-1, -2, -1]])
+sobelHorizontal = np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]])
 global bias
 bias = 1
+
 
 def selecionaImg():
     # Tornando global para ser acessada pelas demais funcoes
@@ -29,29 +31,33 @@ def imgLida(caminhoArquivo):
     return Image.open(caminhoArquivo)
 
 
-def exibe(imagem):  #Esta exibindo grande demais, precisa ajustar o tamanho de exibiçao da imagem
+def exibe(imagem):  # Esta exibindo grande demais, precisa ajustar o tamanho de exibiçao da imagem
     imagem.show()
 
 
 def selecionaFuncao():
-    select = listbox.curselection()  #Capturando qual item esta selecionado na listbox
+    select = listbox.curselection()  # Capturando qual item esta selecionado na listbox
     for item in select:
-        executaFunc(item)            #Chamando o seletor de funções passando qual item esta selecionado
+        # Chamando o seletor de funções passando qual item esta selecionado
+        executaFunc(item)
 
-def imagemArray(imagem):             #Transforma a imagem em array
+
+def imagemArray(imagem):  # Transforma a imagem em array
     return np.asarray(imagem)
 
-def arrayImagem(array):              #Transforma o array em imagem
+
+def arrayImagem(array):  # Transforma o array em imagem
 
     imagem = Image.fromarray(array, mode='RGB')
 
     return imagem
 
-#--------------------------------- CONVERSÃO RGB - YIQ -----------------------------------------------------------
+# --------------------------------- CONVERSÃO RGB - YIQ -----------------------------------------------------------
 
-def RGBYIQ(imagemRGB, largura, altura): #Converte a imagem de RGB para YIQ
 
-    #Copia a imagem e transforma array em float para os calculos de conversão
+def RGBYIQ(imagemRGB, largura, altura):  # Converte a imagem de RGB para YIQ
+
+    # Copia a imagem e transforma array em float para os calculos de conversão
     imagemYIQ = imagemRGB.copy()
     imagemYIQ = imagemYIQ.astype(float)
 
@@ -66,10 +72,11 @@ def RGBYIQ(imagemRGB, largura, altura): #Converte a imagem de RGB para YIQ
 
     return imagemYIQ
 
-#--------------------------------- CONVERSÃO YIQ - RGB -----------------------------------------------------------
+# --------------------------------- CONVERSÃO YIQ - RGB -----------------------------------------------------------
+
 
 def YIQRGB(imagemYIQ, largura, altura):
-    #Coonvertendo imagem para int
+    # Coonvertendo imagem para int
     imagemRGB = imagemYIQ.astype(int)
 
     for i in range(altura):
@@ -82,68 +89,78 @@ def YIQRGB(imagemYIQ, largura, altura):
                 imagemRGB[i][j][0] = 0
             else:
                 imagemRGB[i][j][0] = valor
-            
-            valor = int(1.000*imagemYIQ[i][j][0] - 0.272* \
+
+            valor = int(1.000*imagemYIQ[i][j][0] - 0.272 *
 			            imagemYIQ[i][j][1] - 0.647*imagemYIQ[i][j][2])
-                        
+
             if valor > 255:
                 imagemRGB[i][j][1] = 255
             elif valor < 0:
                 imagemRGB[i][j][1] = 0
             else:
                 imagemRGB[i][j][1] = valor
-            
-            valor = int(1.000*imagemYIQ[i][j][0] - 1.106*imagemYIQ[i][j][1] + 1.703*imagemYIQ[i][j][2])
-            
+
+            valor = int(1.000*imagemYIQ[i][j][0] - 1.106 *
+                        imagemYIQ[i][j][1] + 1.703*imagemYIQ[i][j][2])
+
             if valor > 255:
                 imagemRGB[i][j][2] = 255
             elif valor < 0:
                 imagemRGB[i][j][2] = 0
             else:
                 imagemRGB[i][j][2] = valor
-                
-    imagemRGB = np.uint8(imagemRGB)
-    
-    return imagemRGB
-  #--------------------------------- EXIBIÇÃO DE BANDAS INDIVIDUAIS -----------------------------------------------------------
 
-def selecionaBanda(banda, tipo): #Selecionando a banda que será utilizada e o tipo de exibicao
+    imagemRGB = np.uint8(imagemRGB)
+
+    return imagemRGB
+  # --------------------------------- EXIBIÇÃO DE BANDAS INDIVIDUAIS -----------------------------------------------------------
+
+
+# Selecionando a banda que será utilizada e o tipo de exibicao
+def selecionaBanda(banda, tipo):
     run = True
     while run:
         if banda is 'R':
-            if tipo is 'colorida': 
-                arrayModificada = bandaColorida(arrayOriginal, larguraOriginal, alturaOriginal, banda)
+            if tipo is 'colorida':
+                arrayModificada = bandaColorida(
+                    arrayOriginal, larguraOriginal, alturaOriginal, banda)
 
             elif tipo is 'monocromatica':
-                arrayModificada = bandaMonocromatica(arrayOriginal, larguraOriginal, alturaOriginal, banda)
+                arrayModificada = bandaMonocromatica(
+                    arrayOriginal, larguraOriginal, alturaOriginal, banda)
             imagemModificada = arrayImagem(arrayModificada)
             exibe(imagemModificada)
             run = False
-            
+
         elif banda is 'G':
-            if tipo is 'colorida': 
-                arrayModificada = bandaColorida(arrayOriginal, larguraOriginal, alturaOriginal, banda)
-                
+            if tipo is 'colorida':
+                arrayModificada = bandaColorida(
+                    arrayOriginal, larguraOriginal, alturaOriginal, banda)
+
             elif tipo is 'monocromatica':
-                arrayModificada = bandaMonocromatica(arrayOriginal, larguraOriginal, alturaOriginal, banda)
+                arrayModificada = bandaMonocromatica(
+                    arrayOriginal, larguraOriginal, alturaOriginal, banda)
             imagemModificada = arrayImagem(arrayModificada)
             exibe(imagemModificada)
             run = False
-            
+
         elif banda is 'B':
-            if tipo is 'colorida': 
-                arrayModificada = bandaColorida(arrayOriginal, larguraOriginal, alturaOriginal, banda)
-                
+            if tipo is 'colorida':
+                arrayModificada = bandaColorida(
+                    arrayOriginal, larguraOriginal, alturaOriginal, banda)
+
             elif tipo is 'monocromatica':
-                arrayModificada = bandaMonocromatica(arrayOriginal, larguraOriginal, alturaOriginal, banda)
+                arrayModificada = bandaMonocromatica(
+                    arrayOriginal, larguraOriginal, alturaOriginal, banda)
             imagemModificada = arrayImagem(arrayModificada)
             exibe(imagemModificada)
             run = False
         else:
             return
 
-def bandaColorida(arrayDaImagem, largura, altura, banda): #Para a exibicao colorida
-  
+
+def bandaColorida(arrayDaImagem, largura, altura, banda):  # Para a exibicao colorida
+
 	arrayDaImagem = arrayDaImagem.copy()
 	if banda is 'R':
 		for i in range(altura):
@@ -169,84 +186,85 @@ def bandaColorida(arrayDaImagem, largura, altura, banda): #Para a exibicao color
 	else:
 		return arrayDaImagem
 
-def bandaMonocromatica(imagem, largura, altura, banda): #Para a exibição monocromática
-	
+
+def bandaMonocromatica(imagem, largura, altura, banda):  # Para a exibição monocromática
+
 	imagemMonocromatica = imagem.copy()
-	
+
 	if banda is 'R':
 		for i in range(altura):
 			for j in range(largura):
-				#Repete a matriz R em G e B
+				# Repete a matriz R em G e B
 				imagemMonocromatica[i][j][1] = imagem[i][j][0]
 				imagemMonocromatica[i][j][2] = imagem[i][j][0]
-				
+
 		return imagemMonocromatica
-		
+
 	elif banda is 'G':
 		for i in range(altura):
 			for j in range(largura):
-				#Repete a matriz G em R e B
+				# Repete a matriz G em R e B
 				imagemMonocromatica[i][j][0] = imagem[i][j][1]
 				imagemMonocromatica[i][j][2] = imagem[i][j][1]
-				
+
 		return imagemMonocromatica
 
 	elif banda is 'B':
 		for i in range(altura):
 			for j in range(largura):
-				#Repete a matriz B em R e G
+				# Repete a matriz B em R e G
 				imagemMonocromatica[i][j][0] = imagem[i][j][2]
 				imagemMonocromatica[i][j][1] = imagem[i][j][2]
-				
+
 		return imagemMonocromatica
-    #pega a media dos valores do pixel e atualiza com o valor obtido
-    #esse processo deixa mais suave os niveis de cinza
-    #elif banda is 'M':
-        #for i in range(altura):
-			#for j in range(largura):
-                #media = (imagem[i][j][0]+imagem[i][j][1]+imagem[i][j][2])/3
-				#imagemMonocromatica[i][j][0] = media
-				#imagemMonocromatica[i][j][1] = media
-                #imagemMonocromatica[i][j][2] = media
-        #return imagemMonocromatica
-	
+    # pega a media dos valores do pixel e atualiza com o valor obtido
+    # esse processo deixa mais suave os niveis de cinza
+    # elif banda is 'M':
+        # for i in range(altura):
+			# for j in range(largura):
+                # media = (imagem[i][j][0]+imagem[i][j][1]+imagem[i][j][2])/3
+				# imagemMonocromatica[i][j][0] = media
+				# imagemMonocromatica[i][j][1] = media
+                # imagemMonocromatica[i][j][2] = media
+        # return imagemMonocromatica
+
 	else:
 		return imagemMonocromatica
 
-#Troca as cores do pixel
-#verde -> magenta,
-#azul -> amarelo, 
-#vermelho -> cíano, 
-#branco -> preto
+# Troca as cores do pixel
+# verde -> magenta,
+# azul -> amarelo,
+# vermelho -> cíano,
+# branco -> preto
 
 
-
-#--------------------------------- NEGATIVOS -----------------------------------------------------------
+# --------------------------------- NEGATIVOS -----------------------------------------------------------
 
 
 def filtroNegativoRGB(imagem, largura, altura):
-	
+
 	imagemNegativa = imagem.copy()
-	
+
 	for i in range(altura):
 		for j in range(largura):
 		     # Vai diminuir 255 de cada cor do pixel
 			imagemNegativa[i][j][0] = 255 - imagem[i][j][0]
 			imagemNegativa[i][j][1] = 255 - imagem[i][j][1]
 			imagemNegativa[i][j][2] = 255 - imagem[i][j][2]
-	
+
 	return imagemNegativa
 
+
 def filtroNegativoYIQ(imagem, largura, altura):
-	int
+
 	imagemNegativa = imagem.copy()
-	
+
 	for i in range(altura):
 		for j in range(largura):
 			imagemNegativa[i][j][0] = 255 - imagem[i][j][0]
-	
+
 	return imagemNegativa
-#--------------------------------- CONTROLE DE BRILHO -----------------------------------------------------------
+# --------------------------------- CONTROLE DE BRILHO -----------------------------------------------------------
 
 # def brilhoAditivoRGB (imagem, largura, altura):
 
@@ -295,7 +313,7 @@ def filtroNegativoYIQ(imagem, largura, altura):
 #                 imagemFinal[i][j][2] += c
 
 #     return imagemFinal
-    
+
 # def brilhoMultiplicativoRGB (imagem, largura, altura, fator):
 
 #     imagemFinal = imagem.copy()
@@ -334,7 +352,7 @@ def filtroNegativoYIQ(imagem, largura, altura):
 #                 imagemFinal[i][j][2] = limite
 #             else:
 #                 imagemFinal[i][j][2] = 255
-       
+
 #     return imagemFinal
 
 
@@ -382,24 +400,24 @@ def filtroNegativoYIQ(imagem, largura, altura):
 #                 imagemFinal[i][j][0] = 255
 #     int
 #     return imagemFinal
-#--------------------------------- LIMIARIZAÇÃO -----------------------------------------------------------
+# --------------------------------- LIMIARIZAÇÃO -----------------------------------------------------------
 
 
-#Separa a imagem em dois grupos:
-#pixels com valores abaixo do limiar
+# Separa a imagem em dois grupos:
+# pixels com valores abaixo do limiar
 # pixels acima do valor do limiar
-#o limiar é a intensidade do cinza
+# o limiar é a intensidade do cinza
 def filtroLimiarizacaoRGB(imagem, largura, altura, limiar, banda):
-	
+
 	imagemLimiarizada = imagem.copy()
 	limiar = int(limiar)
 	if banda is 'R':
 		for i in range(altura):
 			for j in range(largura):
-				#Verifica sempre se o valor daquela banda no pixel é menor ou igual
-				#o limiar, caso seja maior ele trunca em 255
+				# Verifica sempre se o valor daquela banda no pixel é menor ou igual
+				# o limiar, caso seja maior ele trunca em 255
 				if imagemLimiarizada[i][j][0] <= limiar:
-                    #Deixa os pixels brancos,no caso tom mais claro
+                    # Deixa os pixels brancos,no caso tom mais claro
 					imagemLimiarizada[i][j][0] = 0
 					imagemLimiarizada[i][j][1] = 0
 					imagemLimiarizada[i][j][2] = 0
@@ -407,9 +425,9 @@ def filtroLimiarizacaoRGB(imagem, largura, altura, limiar, banda):
 					imagemLimiarizada[i][j][0] = 255
 					imagemLimiarizada[i][j][1] = 255
 					imagemLimiarizada[i][j][2] = 255
-				
+
 		return imagemLimiarizada
-	
+
 	elif banda is 'G':
 		for i in range(altura):
 			for j in range(largura):
@@ -423,7 +441,7 @@ def filtroLimiarizacaoRGB(imagem, largura, altura, limiar, banda):
 					imagemLimiarizada[i][j][2] = 255
 
 		return imagemLimiarizada
-	
+
 	elif banda is 'B':
 		for i in range(altura):
 			for j in range(largura):
@@ -435,15 +453,15 @@ def filtroLimiarizacaoRGB(imagem, largura, altura, limiar, banda):
 					imagemLimiarizada[i][j][0] = 255
 					imagemLimiarizada[i][j][1] = 255
 					imagemLimiarizada[i][j][2] = 255
-				
+
 		return imagemLimiarizada
-	
+
 	else:
 		return imagemLimiarizada
-		
+
 
 def filtroLimiarizacaoYIQ(imagem, largura, altura, limiar):
-	
+
 	imagemLimiarizada = imagem.copy()
 	limiar = int(limiar)
 	for i in range(altura):
@@ -453,155 +471,159 @@ def filtroLimiarizacaoYIQ(imagem, largura, altura, limiar):
 
 			else:
 				imagemLimiarizada[i][j][0] = 255
-				
+
 	return imagemLimiarizada
 
+
 def limiarFunc(valor, banda):
-    #print("Valor %s" % (valor.get()))
+    # print("Valor %s" % (valor.get()))
     limiar = valor.get()
     print(limiar)
     print(banda)
     global arrayModificada
     global imagemModificada
     if banda is 'R':
-        arrayModificada = filtroLimiarizacaoRGB(arrayOriginal, larguraOriginal, alturaOriginal, limiar, 'R')
+        arrayModificada = filtroLimiarizacaoRGB(
+            arrayOriginal, larguraOriginal, alturaOriginal, limiar, 'R')
         imagemModificada = arrayImagem(arrayModificada)
         exibe(imagemModificada)
     elif banda is 'G':
-        arrayModificada = filtroLimiarizacaoRGB(arrayOriginal, larguraOriginal, alturaOriginal, limiar, 'G')
+        arrayModificada = filtroLimiarizacaoRGB(
+            arrayOriginal, larguraOriginal, alturaOriginal, limiar, 'G')
         imagemModificada = arrayImagem(arrayModificada)
         exibe(imagemModificada)
     elif banda is 'B':
-        arrayModificada = filtroLimiarizacaoRGB(arrayOriginal, larguraOriginal, alturaOriginal, limiar, 'B')
+        arrayModificada = filtroLimiarizacaoRGB(
+            arrayOriginal, larguraOriginal, alturaOriginal, limiar, 'B')
         imagemModificada = arrayImagem(arrayModificada)
         exibe(imagemModificada)
     elif banda is 'Y':
-        arrayModificada = filtroLimiarizacaoYIQ(arrayModificada, larguraOriginal, alturaOriginal, limiar)
+        arrayModificada = filtroLimiarizacaoYIQ(
+            arrayModificada, larguraOriginal, alturaOriginal, limiar)
         imagemModificada = arrayImagem(arrayModificada)
         exibe(imagemModificada)
 
-#--------------------------------- MEDIANA -----------------------------------------------------------
-def filtroMedianaRGB (imagem, largura, altura, m, n):
+# --------------------------------- MEDIANA -----------------------------------------------------------
+
+
+def filtroMedianaRGB(imagem, largura, altura, m, n):
     m = int(m)
     n = int(n)
     ImagemMediana = imagem.copy()
 
     limiteAltura = math.floor(m/2)
     print(limiteAltura)
-     
+
     limiteLargura = math.floor(n/2)
-    print( limiteLargura)
-                #Cria uma matriz de 0`s com a dimensáo do Kernel para cada banda.
-                
-    bandaR = np.zeros((m,n), dtype = int) 
-    bandaG = np.zeros((m,n), dtype = int) 
-    bandaB = np.zeros((m,n), dtype = int) 
+    print(limiteLargura)
+                # Cria uma matriz de 0`s com a dimensáo do Kernel para cada banda.
+
+    bandaR = np.zeros((m, n), dtype=int)
+    bandaG = np.zeros((m, n), dtype=int)
+    bandaB = np.zeros((m, n), dtype=int)
 
     soma = 0
     mediana = 0
-    
-    for i in range(limiteAltura, altura - limiteAltura):               #Laço para percorrer a altura
-        for j in range(limiteLargura, largura - limiteLargura):        #Laço para percorrer a largura
-	
+    for i in range(limiteAltura, altura - limiteAltura):  # Laço para percorrer a altura
+        for j in range(limiteLargura, largura - limiteLargura):  # Laço para percorrer a largura
+
             contAltura = limiteAltura
             contLargura = limiteLargura
-			
-            #Laço para percorrer a banda R dos Pixels da parte da imagem referente ao tamanho do Kernel 
+
+            # Laço para percorrer a banda R dos Pixels da parte da imagem referente ao tamanho do Kernel
             for k in range(m):
                 for l in range(n):
                     bandaR[k][l] = imagem[i - contAltura][j - contLargura][0]
                     contLargura -= 1
-                    contAltura -= 1
-                    contLargura = limiteLargura
+                contAltura -= 1
+                contLargura = limiteLargura
 
-            #Ordena os valores da banda R	
-            bandaOrdenadoR = np.sort(bandaR, axis = None)
-			
-            #Verififica se a quantidade de elementos do array ordenado é par ou impar e define a mediana	
+            # Ordena os valores da banda R
+            bandaOrdenadoR = np.sort(bandaR, axis=None)
 
-            if len(bandaOrdenadoR)%2 == 0:
+            # Verififica se a quantidade de elementos do array ordenado é par ou impar e define a mediana
+
+            if len(bandaOrdenadoR) % 2 == 0:
                 soma += bandaOrdenadoR[len(bandaOrdenadoR)/2]
                 soma += bandaOrdenadoR[(len(bandaOrdenadoR)/2) - 1]
                 mediana = int(soma/2)
             else:
                 mediana = bandaOrdenadoR[math.floor(len(bandaOrdenadoR)/2)]
-	
+
             ImagemMediana[i][j][0] = mediana
-			
-            #Reinicializando variáveis
+
+            # Reinicializando variáveis
             mediana = 0
             soma = 0
             contAltura = limiteAltura
             contLargura = limiteLargura
-			
+
             for k in range(m):
                 for l in range(n):
                     bandaG[k][l] = imagem[i - contAltura][j - contLargura][1]
                     contLargura -= 1
-                    contAltura -= 1
-                    contLargura = limiteLargura
-				
-            bandaOrdenadoG = np.sort(bandaG, axis = None)
-			
-            if len(bandaOrdenadoG)%2 == 0:
+                contAltura -= 1
+                contLargura = limiteLargura
+
+            bandaOrdenadoG = np.sort(bandaG, axis=None)
+
+            if len(bandaOrdenadoG) % 2 == 0:
                 soma += bandaOrdenadoG[len(bandaOrdenadoG)/2]
                 soma += bandaOrdenadoG[(len(bandaOrdenadoG)/2) - 1]
                 mediana = int(soma/2)
             else:
                 mediana = bandaOrdenadoG[math.floor(len(bandaOrdenadoG)/2)]
-	
+
             ImagemMediana[i][j][1] = mediana
-		
+
             mediana = 0
             soma = 0
             contAltura = limiteAltura
             contLargura = limiteLargura
-			
+
             for k in range(m):
                 for l in range(n):
                     bandaB[k][l] = imagem[i - contAltura][j - contLargura][2]
                     contLargura -= 1
                 contAltura -= 1
                 contLargura = limiteLargura
-				
-            bandaOrdenadaB = np.sort(bandaB, axis = None)
-			
-            if len(bandaOrdenadaB)%2 == 0:
+
+            bandaOrdenadaB = np.sort(bandaB, axis=None)
+
+            if len(bandaOrdenadaB) % 2 == 0:
                 soma += bandaOrdenadaB[len(bandaOrdenadaB)/2]
                 soma += bandaOrdenadaB[(len(bandaOrdenadaB)/2) - 1]
                 mediana = int(soma/2)
             else:
                 mediana = bandaOrdenadaB[math.floor(len(bandaOrdenadaB)/2)]
-	
-			
+
             ImagemMediana[i][j][2] = mediana
-			
-			
+
     return ImagemMediana
 
 
-def filtroMedianaYIQ (imagem, largura, altura, m, n):
-
+def filtroMedianaYIQ(imagem, largura, altura, m, n):
+    m = int(m)
+    n = int(n)
     ImagemMediana = imagem.copy()
 
     limiteAltura = math.floor(m/2)
     limiteLargura = math.floor(n/2)
 
-    #Cria uma matriz de 0`s com a dimensáo do Kernel para cada banda.
-                
-    bandaY = np.zeros((m,n), dtype = int) 
+    # Cria uma matriz de 0`s com a dimensáo do Kernel para cada banda.
 
+    bandaY = np.zeros((m, n), dtype=int)
 
     soma = 0
     mediana = 0
-    
-    for i in range(limiteAltura, altura - limiteAltura):               #Laço para percorrer a altura
-        for j in range(limiteLargura, largura - limiteLargura):        #Laço para percorrer a largura
-	
+
+    for i in range(limiteAltura, altura - limiteAltura):  # Laço para percorrer a altura
+        for j in range(limiteLargura, largura - limiteLargura):  # Laço para percorrer a largura
+
             contAltura = limiteAltura
             contLargura = limiteLargura
-			
-            #Laço para percorrer a banda Y dos Pixels da parte da imagem referente ao tamanho do Kernel 
+
+            # Laço para percorrer a banda Y dos Pixels da parte da imagem referente ao tamanho do Kernel
             for k in range(m):
                 for l in range(n):
                     bandaY[k][l] = imagem[i - contAltura][j - contLargura][0]  #
@@ -609,103 +631,107 @@ def filtroMedianaYIQ (imagem, largura, altura, m, n):
                     contAltura -= 1
                     contLargura = limiteLargura
 
-            #Ordena os valores da banda y	
-            bandaOrdenadoY = np.sort(bandaY, axis = None)
-			
-            #Verififica se a quantidade de elementos do array ordenado é par ou impar e define a mediana	
+            # Ordena os valores da banda y
+            bandaOrdenadoY = np.sort(bandaY, axis=None)
 
-            if len(bandaOrdenadoY)%2 == 0:
+            # Verififica se a quantidade de elementos do array ordenado é par ou impar e define a mediana
+
+            if len(bandaOrdenadoY) % 2 == 0:
                 soma += bandaOrdenadoY[len(bandaOrdenadoY)/2]
                 soma += bandaOrdenadoY[(len(bandaOrdenadoY)/2) - 1]
                 mediana = int(soma/2)
             else:
                 mediana = bandaOrdenadoY[math.floor(len(bandaOrdenadoY)/2)]
-	
+
             ImagemMediana[i][j][0] = mediana
 
     return ImagemMediana
 
+
 def medianafunc(m, n):
     p = m.get()
     q = n.get()
-    arrayModificada = filtroMedianaRGB(arrayOriginal, larguraOriginal, alturaOriginal, p, q)
-    imagemModificada = arrayImagem(arrayModificada)
-    exibe(imagemModificada)
+    if imagemEhRGB is True:
+        arrayModificada = filtroMedianaRGB(
+            arrayOriginal, larguraOriginal, alturaOriginal, p, q)
+        imagemModificada = arrayImagem(arrayModificada)
+        exibe(imagemModificada)
+    else:
+        arrayModificada = filtroMedianaYIQ(
+            arrayModificada, larguraOriginal, alturaOriginal, p, q)
+        imagemModificada = arrayImagem(arrayModificada)
+        exibe(imagemModificada)
 
 
-
-#--------------------------------- CONVOLUCAO-----------------------------------------------------------
+# --------------------------------- CONVOLUCAO-----------------------------------------------------------
 def convolucaoRGB(imagem, largura, altura, mascara):
-    
-    if mascara == "media"
+
+    if mascara == "media":
         mascara = media
 
-    elif mascara == "sobelVertical"
+    elif mascara == "sobelVertical":
         mascara = sobelVertical
 
         aux = mascara[0].copy()
         mascara[0] = mascara[2].copy()
         mascara[2] = aux.copy()
 
-        for i in range(0,len(mascara)):
+        for i in range(0, len(mascara)):
             aux = mascara[i][0].copy()
             mascara[i][0] = mascara[i][2].copy()
             mascara[i][2] = aux.copy()
-    
-    elif mascara == "sobelHorizontal"
+
+    elif mascara == "sobelHorizontal":
         mascara = sobelHorizontal
-
         aux = mascara[0].copy()
-		mascara[0] = mascara[2].copy()
-		mascara[2] = aux.copy()
+        mascara[0] = mascara[2].copy()
+        mascara[2] = aux.copy()
 
-        for i in range(0,len(mascara)):
-			aux = mascara[i][0].copy()
-			mascara[i][0] = mascara[i][2].copy()
-			mascara[i][2] = aux.copy()
-    
-	imagemConvolucionada = imagem.copy()
-	
-	limiteAlturaMascara = math.floor(len(mascara)/2)
-	limiteLarguraMascara = math.floor(len(mascara[0])/2)
-    
+        for i in range(0, len(mascara)):
+            aux = mascara[i][0].copy()
+            mascara[i][0] = mascara[i][2].copy()
+            mascara[i][2] = aux.copy()
+
+    imagemConvolucionada = imagem.copy()
+
+    limiteAlturaMascara = math.floor(len(mascara)/2)
+    limiteLarguraMascara = math.floor(len(mascara[0])/2)
+
     sinal = mascara.copy()
 
-    sinal = np.zeros((len(mascara), len(mascara[0]), 3), dtype = int)
-    
+    sinal = np.zeros((len(mascara), len(mascara[0]), 3), dtype=int)
+
     resultadoR = 0
-	resultadoG = 0
-	resultadoB = 0
+    resultadoG = 0
+    resultadoB = 0
 
     for i in range(limiteAlturaMascara, altura - limiteAlturaMascara):
-		for j in range(limiteLarguraMascara, largura - limiteLarguraMascara):
-			
-			contAltura = limiteAlturaMascara
-			contLargura = limiteLarguraMascara
-			
-			for m in range(len(mascara)):
-				for n in range(len(mascara[0])):
-					sinal[m][n] = imagem[i - contAltura][j - contLargura]
-					contLargura -= 1
-				contAltura -= 1
-				contLargura = limiteLarguraMascara
-				
-			for m in range(len(mascara)):
-				for n in range(len(mascara[0])):
-					resultadoR += sinal[m][n][0] * mascara[m][n]
-					resultadoG += sinal[m][n][1] * mascara[m][n]
-					resultadoB += sinal[m][n][2] * mascara[m][n]
-					
-					
-			imagemConvolucionada[i][j][0] = int(resultadoR) + bias
-			imagemConvolucionada[i][j][1] = int(resultadoG) + bias
-			imagemConvolucionada[i][j][2] = int(resultadoB) + bias
+        for j in range(limiteLarguraMascara, largura - limiteLarguraMascara):
+            contAltura = limiteAlturaMascara
+            contLargura = limiteLarguraMascara
 
-			resultadoR = 0
-			resultadoG = 0
-			resultadoB = 0
-	
-	return imagemConvolucionada
+            for m in range(len(mascara)):
+                for n in range(len(mascara[0])):
+                    sinal[m][n] = imagem[i - contAltura][j - contLargura]
+                    contLargura -= 1
+                contAltura -= 1
+                contLargura = limiteLarguraMascara
+
+            for m in range(len(mascara)):
+                for n in range(len(mascara[0])):
+                    resultadoR += sinal[m][n][0] * mascara[m][n]
+                    resultadoG += sinal[m][n][1] * mascara[m][n]
+                    resultadoB += sinal[m][n][2] * mascara[m][n]
+
+            imagemConvolucionada[i][j][0] = int(resultadoR) + bias
+            imagemConvolucionada[i][j][1] = int(resultadoG) + bias
+            imagemConvolucionada[i][j][2] = int(resultadoB) + bias
+
+            resultadoR = 0
+            resultadoG = 0
+            resultadoB = 0
+
+    return imagemConvolucionada
 
 def convolucaoYIQ(imagem, largura, altura, mascara):
 	
@@ -785,6 +811,10 @@ def imagemAlterada(estado):
         return False
     else:
         return True
+
+imagemModificada = False
+arrayModificada = False
+imagemEhRGB = True
 
 def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das funcoes de tratamento de imagem
     loop = True
@@ -872,6 +902,7 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
         elif opcao == 8:                    #Convolução mxn
             print('8')
         elif opcao == 9:                    #Filtro mediana
+            print('8')
             medianaUi = Tk()
             lbMediana = Label(medianaUi, text='Insira os valores M e N')
             lbMediana.pack()
@@ -883,16 +914,8 @@ def executaFunc(opcao):                 #Seletor, inserir aqui as chamadas das f
             m.pack()
             lbN.pack()
             n.pack()
-            if imagemEhRGB is True:
-                btnMed = Button(medianaUi, text='Enter', command= lambda: medianafunc(m, n))
-                btnMed.pack()
-                arrayModificada = filtroMedianaRGB(arrayOriginal, larguraOriginal, alturaOriginal, m, n)
-                imagemModificada = arrayImagem(arrayModificada)
-                exibe(imagemModificada)
-            else:
-               arrayModificada = filtroMedianaYIQ(arrayModificada, larguraOriginal, alturaOriginal, m, n)
-               imagemModificada = arrayImagem(arrayModificada)
-               exibe(imagemModificada)
+            btnMed = Button(medianaUi, text='Enter', command= lambda: medianafunc(m,n))
+            btnMed.pack()
             loop = False
 
         elif opcao == 10:                   #Limiarizacao
