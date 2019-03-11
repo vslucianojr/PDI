@@ -17,8 +17,8 @@ Utilizando a linguagem python desenvolver um sistema capaz de abrir,exibir e man
 - [x] Conversão RGB-YIQ-RGB
 - [x] Exibição de bandas individuais(R, G e B) como imagens monocromáticas ou coloridas (em tons de R, G e B)
 - [x] Negativo
-- [ ] Controle de brilho aditivo ( valor do *pixel resultante = valor do pixel original + c*, **sendo c inteiro**)
-- [ ] Controle de brilho multiplicativo ( valor do *pixel resultante = valor do pixel original * c*, **sendo c real não negativo**)
+- [x] Controle de brilho aditivo ( valor do *pixel resultante = valor do pixel original + c*, **sendo c inteiro**)
+- [x] Controle de brilho multiplicativo ( valor do *pixel resultante = valor do pixel original * c*, **sendo c real não negativo**)
 - [ ] Convolução *m x n* com bias(viés, offset). Testar com filtros Média e Sobel.
-- [ ] Filtro mediana *m x n*
+- [x] Filtro mediana *m x n*
 - [x] Limiarização com limiar m escolhido pelo usuário.
