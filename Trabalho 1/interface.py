@@ -4,6 +4,14 @@ from PIL import Image
 import numpy as np
 import math
 
+global media
+global sobelVertical
+sobelVertical = np.array ([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
+global sobelHorizontal
+sobelHorizontal = np.array ([[1, 2, 1],[0, 0, 0],[-1, -2, -1]])
+global bias
+bias = 1
+
 def selecionaImg():
     # Tornando global para ser acessada pelas demais funcoes
     global imagemOriginal, larguraOriginal, alturaOriginal, arrayOriginal
@@ -624,7 +632,154 @@ def medianafunc(m, n):
     imagemModificada = arrayImagem(arrayModificada)
     exibe(imagemModificada)
 
-#--------------------------------- CHAMADA DAS FUNÇÕES -----------------------------------------------------------
+
+
+#--------------------------------- CONVOLUCAO-----------------------------------------------------------
+def convolucaoRGB(imagem, largura, altura, mascara):
+    
+    if mascara == "media"
+        mascara = media
+
+    elif mascara == "sobelVertical"
+        mascara = sobelVertical
+
+        aux = mascara[0].copy()
+        mascara[0] = mascara[2].copy()
+        mascara[2] = aux.copy()
+
+        for i in range(0,len(mascara)):
+            aux = mascara[i][0].copy()
+            mascara[i][0] = mascara[i][2].copy()
+            mascara[i][2] = aux.copy()
+    
+    elif mascara == "sobelHorizontal"
+        mascara = sobelHorizontal
+
+        aux = mascara[0].copy()
+		mascara[0] = mascara[2].copy()
+		mascara[2] = aux.copy()
+
+        for i in range(0,len(mascara)):
+			aux = mascara[i][0].copy()
+			mascara[i][0] = mascara[i][2].copy()
+			mascara[i][2] = aux.copy()
+    
+	imagemConvolucionada = imagem.copy()
+	
+	limiteAlturaMascara = math.floor(len(mascara)/2)
+	limiteLarguraMascara = math.floor(len(mascara[0])/2)
+    
+    sinal = mascara.copy()
+
+    sinal = np.zeros((len(mascara), len(mascara[0]), 3), dtype = int)
+    
+    resultadoR = 0
+	resultadoG = 0
+	resultadoB = 0
+
+    for i in range(limiteAlturaMascara, altura - limiteAlturaMascara):
+		for j in range(limiteLarguraMascara, largura - limiteLarguraMascara):
+			
+			contAltura = limiteAlturaMascara
+			contLargura = limiteLarguraMascara
+			
+			for m in range(len(mascara)):
+				for n in range(len(mascara[0])):
+					sinal[m][n] = imagem[i - contAltura][j - contLargura]
+					contLargura -= 1
+				contAltura -= 1
+				contLargura = limiteLarguraMascara
+				
+			for m in range(len(mascara)):
+				for n in range(len(mascara[0])):
+					resultadoR += sinal[m][n][0] * mascara[m][n]
+					resultadoG += sinal[m][n][1] * mascara[m][n]
+					resultadoB += sinal[m][n][2] * mascara[m][n]
+					
+					
+			imagemConvolucionada[i][j][0] = int(resultadoR) + bias
+			imagemConvolucionada[i][j][1] = int(resultadoG) + bias
+			imagemConvolucionada[i][j][2] = int(resultadoB) + bias
+
+			resultadoR = 0
+			resultadoG = 0
+			resultadoB = 0
+	
+	return imagemConvolucionada
+
+def convolucaoYIQ(imagem, largura, altura, mascara):
+	
+						
+	if mascara == "media":
+		mascara = media
+							
+	elif mascara == "sobelVertical":
+		mascara = sobelVertical
+		
+		
+		aux = mascara[0].copy()
+		mascara[0] = mascara[2].copy()
+		mascara[2] = aux.copy()
+		
+							
+		for i in range(0,len(mascara)):
+			aux = mascara[i][0].copy()
+			mascara[i][0] = mascara[i][2].copy()
+			mascara[i][2] = aux.copy()
+	
+	elif mascara == "sobelHorizontal":
+		mascara = sobelHorizontal
+
+		
+		aux = mascara[0].copy()
+		mascara[0] = mascara[2].copy()
+		mascara[2] = aux.copy()
+		
+		
+		for i in range(0,len(mascara)):
+			aux = mascara[i][0].copy()
+			mascara[i][0] = mascara[i][2].copy()
+			mascara[i][2] = aux.copy()
+	
+							
+	imagemConvolucionada = imagem.copy()
+	
+	limiteAlturaMascara = math.floor(len(mascara)/2)
+	limiteLarguraMascara = math.floor(len(mascara[0])/2)
+
+	sinal = mascara.copy()
+
+
+	sinal = np.zeros((len(mascara), len(mascara[0]), 3), dtype = int)
+
+	
+	resultadoY = 0
+
+	
+	for i in range(limiteAlturaMascara, altura - limiteAlturaMascara):
+		for j in range(limiteLarguraMascara, largura - limiteLarguraMascara):
+			
+			contAltura = limiteAlturaMascara
+			contLargura = limiteLarguraMascara
+			
+			for m in range(len(mascara)):
+				for n in range(len(mascara[0])):
+					sinal[m][n] = imagem[i - contAltura][j - contLargura]
+					contLargura -= 1
+				contAltura -= 1
+				contLargura = limiteLarguraMascara
+				
+			for m in range(len(mascara)):
+				for n in range(len(mascara[0])):
+					resultadoY += sinal[m][n][0] * mascara[m][n]
+
+					
+			imagemConvolucionada[i][j][0] = int(resultadoY) + bias
+
+			resultadoY = 0
+	
+	return imagemConvolucionada
+
 def imagemAlterada(estado):
     if estado is 0:
         return False
